@@ -5,7 +5,7 @@
   "main": "dist/server/index.js",
   "private": true,
   "scripts": {
-    "start": "npm run build && npm run runServer",
+    "start": "npm run runServer",
     "build": "npm run buildApp && npm run buildServer",
     "server": "npm run buildServer && npm run runServer",
     "runServer": "echo \"Running: Server\" && node .",
@@ -39,6 +39,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "d3": "^6.2.0",
     "express": "^4.17.1",
     "rxjs": "^6.6.3",

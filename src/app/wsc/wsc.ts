@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs';
 import { WSSPack } from 'src/server/wss/wss';
+import axios from 'axios';
 
 export class WSC {
     private static started = false;
@@ -8,11 +9,13 @@ export class WSC {
 
     static events = WSC.eventsSbj.asObservable();
 
-    static init() {
+    static async init() {
         if (this.started) return;
         this.started = true;
 
-        this.wsc = new WebSocket("ws://localhost:9010");
+        const ip = await this.getIp() || 'localhost';
+
+        this.wsc = new WebSocket(`ws://${ip}:9010`);
 
         this.wsc.addEventListener('open', () => {
             console.log('opened');
@@ -63,5 +66,10 @@ export class WSC {
         }
         const strData = JSON.stringify({ cmd, data });
         this.wsc.send(strData);
+    }
+
+    private static async getIp() {
+        const res = await axios.get('/params/ip');
+        return res && res.data && res.data.ip || null;
     }
 }
