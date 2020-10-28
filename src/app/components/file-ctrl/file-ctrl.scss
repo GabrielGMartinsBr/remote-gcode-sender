@@ -1,0 +1,31 @@
+.section-file {
+
+    .file-controls {
+        background: rgba(#fff, .1);
+        margin-bottom: 16px;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+
+        .ml-auto {
+            margin-left: auto;
+        }
+        button {
+            padding: 3px 9px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+    }
+
+    .gcode-text-preview {
+        background: rgba(#fff, .1);
+        pre {
+            padding: 16px;
+            height: 300px;
+            max-height: 80vh;
+            overflow: auto;
+            text-transform: uppercase;
+        }
+    }
+}

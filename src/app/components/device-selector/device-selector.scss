@@ -1,0 +1,52 @@
+.device-selector-view {
+
+    button {
+        font-weight: 600;
+        font-size: 16px;
+        padding: 6px 18px;
+        color: #333;
+        cursor: pointer;
+        text-transform: uppercase;
+    }
+
+    .ml-auto {
+        margin-left: auto;
+    }
+
+    .devices-header {
+        background: rgba(#fff, .1);
+        padding: 16px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+
+        h2 {
+            margin: 0;
+            font-size: 28px;
+        }
+    }
+
+    .devices-list {
+        .device-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            background: rgba(#fff, .1);
+
+            .device-info {
+                flex: 1 1 auto;
+                margin-right: 32px;
+                padding: 16px;
+
+            }
+
+            .device-actions {
+                user-select: none;
+                margin-left: auto;
+                padding: 16px;
+            }
+        }
+    }
+
+
+}

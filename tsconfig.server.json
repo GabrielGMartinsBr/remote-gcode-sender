@@ -1,0 +1,18 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "dist/",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "target": "es6",
+        "baseUrl": "./src/server",
+        "paths": {
+            "src/*": ["../*"],
+            "server/*": ["../server/*"],
+            "app/*": ["../app/*"],
+        }
+    },
+    "exclude": [
+        "src/app"
+    ]
+}
