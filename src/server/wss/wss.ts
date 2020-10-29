@@ -24,7 +24,6 @@ export class WSS {
         })
 
         this.wss.addListener('connection', sock => {
-            sock.send('hi :)');
             sock.send(JSON.stringify({ cmd: 'test', data: 'any haha' }));
             console.log('has connection');
 

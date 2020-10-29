@@ -19,9 +19,8 @@ export class WSC {
 
         this.wsc.addEventListener('open', () => {
             console.log('opened');
-            this.wsc.send('sending plain string');
             this.send({ cmd: 'test' })
-            this.send({ cmd: 'serialGetDevices' })
+            this.send({ cmd: 'serialGetStatus' })
         })
 
         this.wsc.addEventListener('message', event => {

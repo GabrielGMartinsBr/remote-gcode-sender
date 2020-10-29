@@ -27,6 +27,11 @@
     }
 
     .devices-list {
+        .loading-message {
+            background: rgba(#fff, .1);
+            text-align: center;
+            padding: 64px 16px;
+        }
         .device-item {
             display: flex;
             align-items: center;

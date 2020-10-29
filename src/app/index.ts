@@ -8,16 +8,15 @@ function init() {
 
     render();
 
-    AppComponent.init();
 }
 
 function render() {
-    const appWrap = document.querySelector('#app');
+    const appWrap = document.querySelector('#app') as HTMLElement;
     if (!appWrap) {
         throw 'app wrap not found!';
     }
 
-    appWrap.innerHTML = AppComponent.template();
+    AppComponent.init(appWrap);
 }
 
 document.addEventListener('DOMContentLoaded', () => init())

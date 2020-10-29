@@ -1,9 +1,11 @@
-
 .app-component
-    include ./device-selector/device-selector.pug
 
-    //- include ./device-selected/device-selected.pug
-    //- include ./machine-base-ctrls/machine-base-ctrls.pug
-    //- include ./file-ctrl/file-ctrl.pug
+    unless connected
+        include ./device-selector/device-selector.pug
+    else
+        include ./device-selected/device-selected.pug
+        include ./machine-base-ctrls/machine-base-ctrls.pug
+        include ./file-ctrl/file-ctrl.pug
+        include ./device-term/device-term.pug
 
         

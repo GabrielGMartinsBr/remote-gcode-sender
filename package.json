@@ -1,7 +1,7 @@
 {
   "name": "remote-gcode-sender",
   "version": "0.1.0",
-  "description": "This is a remote gcode sender.",
+  "description": "This is a prototype for a remote uart gcode sender.",
   "main": "dist/server/index.js",
   "private": true,
   "scripts": {
@@ -11,8 +11,9 @@
     "runServer": "echo \"Running: Server\" && node .",
     "buildServer": "echo \"Building: Server\" && tsc --project tsconfig.server.json",
     "buildApp": "echo \"Building: App\" && webpack",
-    "dev": "nodemon .",
+    "dev": "webpack --watch & npm run devServer & nodemon . --watch dist/server",
     "devApp": "webpack serve --env isDevServer",
+    "devServer": " tsc --project tsconfig.server.json -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Gabriel G. Martins",
