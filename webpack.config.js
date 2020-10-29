@@ -1,14 +1,10 @@
 const Dotenv = require('dotenv-webpack');
-const {
-    CleanWebpackPlugin
-} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const path = require('path');
 
 module.exports = (env = {}) => {
     const isDevServer = env.isDevServer || false;
-    console.log({isDevServer})
     return {
         entry: {
             main: './src/app/index.ts',
