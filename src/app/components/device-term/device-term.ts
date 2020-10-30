@@ -17,7 +17,9 @@ export class DeviceTerm {
         this.refreshBtn = this.getRef('RefreshBtn');
         this.codeInput = this.getRef('CodeInput') as HTMLInputElement;
         this.sendBtn = this.getRef('SendBtn');
+
         this.refreshBtn.addEventListener('click', this.getLogs.bind(this));
+        this.codeInput.addEventListener('keydown', this.onKey.bind(this));
         this.sendBtn.addEventListener('click', this.sendCode.bind(this));
     }
 
@@ -45,8 +47,13 @@ export class DeviceTerm {
         const data = this.codeInput.value;
         if (!data) return;
         this.codeInput.value = '';
-        WSC.send({ cmd: 'serialSendData', data });
-        // d3.select(this.sendBtn).attr('disabled', 'true');
+        WSC.send({ cmd: 'serialSendData', data: data.toUpperCase() + '\n' });
+    }
+
+    static onKey(e: KeyboardEvent) {
+        if (e && e.keyCode === 13) {
+            this.sendCode();
+        }
     }
 
 }

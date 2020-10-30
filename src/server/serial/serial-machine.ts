@@ -2,7 +2,7 @@ import * as SerialPort from 'serialport';
 
 export class SerialMachine {
     port: SerialPort;
-    log: string = '';
+    log: string[] = [];
 
     private connected: boolean;
     private parser: SerialPort.parsers.Readline;
@@ -12,12 +12,17 @@ export class SerialMachine {
         this.parser = new SerialPort.parsers.Readline({ delimiter: '\n' });
         this.port.pipe(this.parser)
         this.parser.addListener('data', this.onData.bind(this));
+        this.connected = true;
 
         this.init();
     }
 
     private init() {
+        if (this.port.isOpen) {
+            return;
+        }
         this.port.open((error) => {
+            console.log('open!', { error })
             if (!error) {
                 this.connected = true;
                 this.afterInit();
@@ -29,6 +34,10 @@ export class SerialMachine {
     }
 
     disconect() {
+        if (!this.port.isOpen) {
+            return;
+        }
+        this.connected = false;
         this.port.close(error => {
             if (!error) {
                 this.connected = false;
@@ -50,13 +59,13 @@ export class SerialMachine {
 
     private onData(data) {
         console.log(data);
-        if (data) this.log += data;
+        this.log.push(data);
     }
 
     get status() {
         return {
-            connected: true,
-            opened: this.connected || false,
+            connected: this.connected,
+            opened: this.port.isOpen || false,
             portInfo: this.portInfo
         };
     }

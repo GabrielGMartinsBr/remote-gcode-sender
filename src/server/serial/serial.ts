@@ -26,6 +26,11 @@ export class Serial {
 
     static handle({ pack, sock } = {} as WSSEvent) {
         switch (pack.cmd) {
+            case 'serialDisconect':
+                this.device.disconect();
+                this.sendDeviceStatus(sock);
+                break;
+
             case 'serialGetStatus':
                 this.sendDeviceStatus(sock);
                 break;
@@ -79,7 +84,7 @@ export class Serial {
     }
 
     private static sendLogs(sock) {
-        const pack: WSSPack = { cmd: 'serialDataLogs', data: this.device.log || '' };
+        const pack: WSSPack = { cmd: 'serialDataLogs', data: this.device.log.join('\n') || '' };
         WSS.send(pack, sock);
     }
 
