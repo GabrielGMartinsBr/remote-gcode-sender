@@ -1,6 +1,7 @@
 .section-file.base-content-block
     .file-controls
-        input(type="file" multiple="false" accept=".gcode,.txt")
-        button.ml-auto(type="button") Print
+        input(type="file" multiple="false" accept=".gcode,.txt" refFileInput)
+        button.ml-auto(type="button" refPrintBtn) Print
     .gcode-text-preview
-        pre(contentEditable="true")
+        //- pre(contentEditable="true")
+        textarea(refFileCode)

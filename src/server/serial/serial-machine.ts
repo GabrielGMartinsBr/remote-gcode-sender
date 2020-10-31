@@ -1,4 +1,5 @@
 import * as SerialPort from 'serialport';
+import { PrintQueue } from './print-queue';
 
 export class SerialMachine {
     port: SerialPort;
@@ -6,6 +7,7 @@ export class SerialMachine {
 
     private connected: boolean;
     private parser: SerialPort.parsers.Readline;
+    private queue: PrintQueue;
 
     constructor(private portInfo: SerialPort.PortInfo) {
         this.port = new SerialPort(portInfo.path, { autoOpen: false, baudRate: 115200 });
@@ -13,6 +15,7 @@ export class SerialMachine {
         this.port.pipe(this.parser)
         this.parser.addListener('data', this.onData.bind(this));
         this.connected = true;
+        this.queue = new PrintQueue(this.port, this.parser);
 
         this.init();
     }
@@ -53,6 +56,10 @@ export class SerialMachine {
             return;
         }
         this.port.write(data);
+    }
+
+    startPrint(fileName: string) {
+        this.queue.startPrint(fileName);
     }
 
     private afterInit() { }

@@ -19,13 +19,25 @@
     }
 
     .gcode-text-preview {
-        background: rgba(#fff, .1);
         pre {
             padding: 16px;
             height: 300px;
             max-height: 80vh;
             overflow: auto;
             text-transform: uppercase;
+            background: rgba(#fff, .1);
+        }
+        textarea {
+            background: rgba(#fff, .1);
+            color: #fff;
+            padding: 16px;
+            min-width: 100%;
+            width: 100%;
+            max-width: 100%;
+            min-height: 300px;
+            max-height: 80vh;
+            text-transform: uppercase;   
+            box-sizing: border-box;
         }
     }
 }

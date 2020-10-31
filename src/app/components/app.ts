@@ -1,12 +1,13 @@
 import './app.scss';
 
 import * as d3 from 'd3';
-
-import { DeviceSelector } from './device-selector/device-selector';
-import { WSC } from '../wsc/wsc';
 import { filter } from 'rxjs/operators';
-import { DeviceTerm } from './device-term/device-term';
+
+import { WSC } from '../wsc/wsc';
+import { DeviceSelector } from './device-selector/device-selector';
 import { DeviceSelected } from './device-selected/device-selected';
+import { FileCtrl } from './file-ctrl/file-ctrl';
+import { DeviceTerm } from './device-term/device-term';
 
 export class AppComponent {
     private static template = require('./app.pug');
@@ -43,6 +44,7 @@ export class AppComponent {
             DeviceSelector.init();
         } else {
             DeviceSelected.init();
+            FileCtrl.init();
             DeviceTerm.init();
         }
     }

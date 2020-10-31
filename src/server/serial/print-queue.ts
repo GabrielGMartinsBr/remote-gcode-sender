@@ -1,0 +1,85 @@
+import SerialPort = require("serialport");
+
+import { FileManager } from "../file-manager";
+
+export class PrintQueue {
+    index: number;
+    running: boolean;
+    complete: boolean;
+    private content: string;
+    private lines: string[];
+
+    private ctrl: boolean;
+
+    constructor(private port: SerialPort, private parser: SerialPort.parsers.Readline) {
+        this.onSerialData = this.onSerialData.bind(this);
+        this.destroy = this.destroy.bind(this);
+
+        parser.addListener('data', this.onSerialData);
+        port.addListener('close', this.destroy);
+    }
+
+    destroy() {
+        this.parser.removeListener('data', this.onSerialData);
+        this.port.removeListener('close', this.destroy);
+    }
+
+    async loadFile(fileName) {
+        this.content = await FileManager.getFile(fileName);
+        this.lines = this.content.split('\n');
+    }
+
+    async startPrint(fileName: string) {
+        await this.loadFile(fileName);
+        if (!this.content) {
+            return;
+        }
+        this.index = 0;
+        this.complete = false;
+        this.running = true;
+        this.next();
+    }
+
+    onSerialData(data: string) {
+        if (/^ok/i.test(data)) {
+            if (this.running) {
+                this.ctrl = false;
+                this.index++;
+                this.next();
+            }
+        }
+    }
+
+    private next() {
+        if (this.ctrl || this.complete || !this.running) {
+            return;
+        }
+
+        let line = this.lines[this.index];
+
+        // When file finish
+        if (line === undefined) {
+            this.running = false;
+            this.complete = true;
+        }
+
+        if (typeof line !== 'string') {
+            throw 'invalid type of line';
+        }
+
+        // Remove comments and trim
+        line = line.replace(/;.*$/gi, '').trim();
+
+        if (!line || /^;/.test(line)) {
+            this.index++;
+            return this.next();
+        }
+
+        if (this.port.writable) {
+            this.port.write(line);
+            this.ctrl = true;
+            console.log('sending', line);
+        }
+    }
+
+}

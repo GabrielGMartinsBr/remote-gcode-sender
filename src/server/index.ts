@@ -1,15 +1,27 @@
 import * as express from 'express';
+import { FileManager } from './file-manager';
 import { WSS } from './wss/wss';
 import { Serial } from './serial/serial';
-import { paramsRouter } from './routers/params';
+import { paramsRouter } from './routers/params-router';
 import { frontAppRouter } from './routers/front-app-router';
+import * as dotenv from 'dotenv';
+import { machineRouter } from './routers/machine-router';
 
 const PORT = 9000;
 
 class App {
     server = express()
 
-    init() {
+    async init() {
+        dotenv.config();
+
+        try {
+            await FileManager.setupDirs();
+        } catch (ex) {
+            console.error(ex);
+            return;
+        }
+
         // Start Web Socket Server
         WSS.init();
 
@@ -19,6 +31,7 @@ class App {
         // Setup routes
         this.server.use(frontAppRouter);
         this.server.use('/params', paramsRouter);
+        this.server.use('/machine', machineRouter)
 
         // Start listen
         this.server.listen(PORT, () => console.log(`Web Server has started on port ${PORT}`));

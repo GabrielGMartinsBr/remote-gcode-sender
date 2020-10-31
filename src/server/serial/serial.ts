@@ -55,6 +55,13 @@ export class Serial {
                 this.sendLogs(sock);
                 break;
 
+            case 'printStart':
+                if (pack.data && pack.data.fileName && typeof pack.data.fileName === 'string') {
+                    this.device.startPrint(pack.data.fileName);
+                    break;
+                }
+                break;
+
             default:
                 console.warn('unexpected pack', pack);
         }
