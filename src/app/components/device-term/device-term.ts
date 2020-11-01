@@ -37,8 +37,25 @@ export class DeviceTerm {
         this.renderLogs();
     }
 
+    static pushLog(data) {
+        if (!this.logs) this.logs = data;
+        else this.logs += `\n${data}`;
+        this.renderLogs();
+    }
+
     static renderLogs() {
-        d3.select(this.logsPre).html(this.logs || '');
+        const pre = d3.select(this.logsPre);
+
+        pre.html(this.logs || '');
+
+        pre.transition().duration(3e3).tween('uniquetweenname', scrollTopTween(pre.property('scrollHeight')))
+
+        function scrollTopTween(scrollTop) {
+            return function () {
+                var i = d3.interpolateNumber(this.scrollTop, scrollTop);
+                return function (t) { this.scrollTop = i(t); };
+            };
+        }
 
         d3.select(this.refreshBtn).attr('disabled', null);
     }

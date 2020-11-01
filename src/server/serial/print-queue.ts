@@ -9,8 +9,6 @@ export class PrintQueue {
     private content: string;
     private lines: string[];
 
-    private ctrl: boolean;
-
     constructor(private port: SerialPort, private parser: SerialPort.parsers.Readline) {
         this.onSerialData = this.onSerialData.bind(this);
         this.destroy = this.destroy.bind(this);
@@ -41,9 +39,9 @@ export class PrintQueue {
     }
 
     onSerialData(data: string) {
-        if (/^ok/i.test(data)) {
+        console.log('[PRINT SERIAL]:', data);
+        if (/^ok/i.test(data.trim())) {
             if (this.running) {
-                this.ctrl = false;
                 this.index++;
                 this.next();
             }
@@ -51,7 +49,7 @@ export class PrintQueue {
     }
 
     private next() {
-        if (this.ctrl || this.complete || !this.running) {
+        if (this.complete || !this.running) {
             return;
         }
 
@@ -76,8 +74,7 @@ export class PrintQueue {
         }
 
         if (this.port.writable) {
-            this.port.write(line);
-            this.ctrl = true;
+            this.port.write(line + '\n');
             console.log('sending', line);
         }
     }

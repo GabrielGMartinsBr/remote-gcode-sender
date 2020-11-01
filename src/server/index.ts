@@ -1,4 +1,6 @@
 import * as express from 'express';
+import * as moment from 'moment'
+
 import { FileManager } from './file-manager';
 import { WSS } from './wss/wss';
 import { Serial } from './serial/serial';
@@ -8,6 +10,8 @@ import * as dotenv from 'dotenv';
 import { machineRouter } from './routers/machine-router';
 
 const PORT = 9000;
+
+moment.locale('pt-BR');
 
 class App {
     server = express()

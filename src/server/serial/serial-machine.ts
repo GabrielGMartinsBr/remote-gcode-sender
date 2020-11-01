@@ -1,5 +1,7 @@
 import * as SerialPort from 'serialport';
+import * as moment from 'moment';
 import { PrintQueue } from './print-queue';
+import { WSS, WSSPack } from '../wss/wss';
 
 export class SerialMachine {
     port: SerialPort;
@@ -65,8 +67,9 @@ export class SerialMachine {
     private afterInit() { }
 
     private onData(data) {
-        console.log(data);
+        data = `[${moment().format('L LTS')}] ${data}`
         this.log.push(data);
+        this.sendLog(data);
     }
 
     get status() {
@@ -75,6 +78,16 @@ export class SerialMachine {
             opened: this.port.isOpen || false,
             portInfo: this.portInfo
         };
+    }
+
+    private sendLogs() {
+        const pack: WSSPack = { cmd: 'serialDataLogs', data: this.log.join('\n') || '' };
+        WSS.broadcast(pack);
+    }
+
+    private sendLog(log: string) {
+        const pack: WSSPack = { cmd: 'serialDataLog', data: log };
+        WSS.broadcast(pack);
     }
 
 }

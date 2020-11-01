@@ -71,4 +71,21 @@ export class WSS {
         sock.send(strData);
     }
 
+    static broadcast(pack: WSSPack) {
+        if (!this.started || !this.wss) {
+            console.warn('server is not ready');
+            return;
+        }
+        if (!pack.cmd || typeof pack.cmd !== 'string') {
+            console.warn('invalid pack not sent', pack);
+            return;
+        }
+        const strData = JSON.stringify(pack);
+        this.wss.clients.forEach(function each(client) {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(strData);
+            }
+        });
+    }
+
 }

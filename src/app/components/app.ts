@@ -23,7 +23,7 @@ export class AppComponent {
     }
 
     static listenWS() {
-        const cmds = ['serialDataDevices', 'serialDeviceStatus', 'serialDataLogs'];
+        const cmds = ['serialDataDevices', 'serialDeviceStatus', 'serialDataLogs', 'serialDataLog'];
         WSC.events
             .pipe(filter(e => e && cmds.indexOf(e.cmd) > -1))
             .subscribe(event => {
@@ -35,6 +35,8 @@ export class AppComponent {
                         return this.onDeviceStatus(event.data);
                     case 'serialDataLogs':
                         return DeviceTerm.updateLogs(event.data);
+                    case 'serialDataLog':
+                        return DeviceTerm.pushLog(event.data);
                 }
             });
     }
