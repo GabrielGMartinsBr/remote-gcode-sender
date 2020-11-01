@@ -1,15 +1,11 @@
+import { resolve } from 'path';
 import * as express from 'express';
 
 export const frontAppRouter = express.Router();
 
+const indexPath = resolve('./dist/app/index.html');
 frontAppRouter.get('/', (req, res) => {
-    res.json('hi!');
+    res.sendFile(indexPath);
 })
 
 frontAppRouter.use('/assets', express.static('dist/app'))
-
-frontAppRouter.get('/test', (req, res) => {
-    console.log(req.get('host'));
-    const newUrl = ['http://localhost:9000', req.url].join('');
-    return res.redirect(newUrl);
-})
