@@ -64,7 +64,9 @@ export class SerialMachine {
         this.queue.startPrint(fileName);
     }
 
-    private afterInit() { }
+    private afterInit() {
+        this.sendStatus();
+    }
 
     private onData(data) {
         data = `[${moment().format('L LTS')}] ${data}`
@@ -78,6 +80,11 @@ export class SerialMachine {
             opened: this.port.isOpen || false,
             portInfo: this.portInfo
         };
+    }
+
+    sendStatus() {
+        const pack: WSSPack = { cmd: 'serialDeviceStatus', data: this.status };
+        WSS.broadcast(pack);
     }
 
     private sendLogs() {

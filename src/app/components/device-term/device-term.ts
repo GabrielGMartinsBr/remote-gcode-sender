@@ -48,7 +48,7 @@ export class DeviceTerm {
 
         pre.html(this.logs || '');
 
-        pre.transition().duration(3e3).tween('uniquetweenname', scrollTopTween(pre.property('scrollHeight')))
+        pre.transition().duration(4e2).tween('uniquetweenname', scrollTopTween(pre.property('scrollHeight')))
 
         function scrollTopTween(scrollTop) {
             return function () {

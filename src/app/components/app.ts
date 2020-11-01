@@ -56,7 +56,7 @@ export class AppComponent {
 
         if (!status) return;
 
-        this.connected = status.connected || false;
+        this.connected = status.opened || false;
 
         this.render();
         this.childs();
