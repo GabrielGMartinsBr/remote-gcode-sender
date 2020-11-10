@@ -98,6 +98,7 @@ export class SerialMachine {
     }
 
     executePresetCommand(command: string) {
+        console.log(command);
         switch (command) {
             case 'Home':
                 this.send(`G28\n`);

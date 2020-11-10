@@ -25,7 +25,7 @@ function bindListeners() {
         const method = i.target[i.methodKey];
         const type = i.eventType;
         if (!(element instanceof Element) || typeof method !== 'function' || typeof type !== 'string') {
-            console.log('NOT', !(element instanceof Element))
+            // console.log('NOT', !(element instanceof Element))
             continue;
         }
         // console.log(i.target);
