@@ -9,6 +9,7 @@ export class DeviceTerm {
     private static logs: string;
     private static cmdHistory: string[] = [];
     private static cmdHistoryCursor: number = 0;
+    private static cmdHistoryCurrent: string;
 
     static init() {
         this.bind();
@@ -67,33 +68,48 @@ export class DeviceTerm {
         if (!data) return;
         this.codeInput.value = '';
         const command = data.toUpperCase();
-        this.cmdHistory.push(command);
-        this.cmdHistoryCursor = 0;
+        this.pushHistory(command);
         WSC.send({ cmd: 'serialSendData', data: command + '\n' });
     }
 
-    static loadHistory(index) {
-        if (this.cmdHistoryCursor === 0) {
-            this.codeInput.value = '';
-            return;
-        }
+    private static loadHistory(index) {
         if (this.cmdHistory[index]) {
             this.codeInput.value = this.cmdHistory[index];
         }
     }
 
+    private static pushHistory(command) {
+        if (!this.cmdHistory.length || this.cmdHistory[this.cmdHistory.length - 1] !== command) {
+            this.cmdHistory.push(command);
+        }
+        this.cmdHistoryCursor = 0;
+    }
+
     static onKey(e: KeyboardEvent) {
         if (e && ['ArrowUp', 'ArrowDown'].indexOf(e.key) > -1) {
-            const dir = e.key === 'ArrowUp' ? 1 : -1;
+            e.preventDefault();
+            e.stopPropagation();
+
             const l = this.cmdHistory.length;
+            const dir = e.key === 'ArrowUp' ? 1 : -1;
+
+            if ((this.cmdHistoryCursor === 0 && dir === -1) || !l) {
+                return;
+            }
             this.cmdHistoryCursor = Math.min(
                 Math.max(0, this.cmdHistoryCursor + dir),
                 l
             );
             const c = l - this.cmdHistoryCursor;
-            this.loadHistory(c);
-            e.preventDefault();
-            e.stopPropagation();
+            if (this.cmdHistoryCursor === 0) {
+                this.codeInput.value = this.cmdHistoryCurrent;
+                this.cmdHistoryCurrent = '';
+            } else {
+                if (this.cmdHistoryCursor === 1 && dir === 1) {
+                    this.cmdHistoryCurrent = this.codeInput.value;
+                }
+                this.loadHistory(c);
+            }
             return;
         }
 
