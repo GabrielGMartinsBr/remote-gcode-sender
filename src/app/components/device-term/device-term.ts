@@ -7,6 +7,8 @@ export class DeviceTerm {
     static sendBtn: HTMLElement;
     static codeInput: HTMLInputElement;
     private static logs: string;
+    private static cmdHistory: string[] = [];
+    private static cmdHistoryCursor: number = 0;
 
     static init() {
         this.bind();
@@ -64,12 +66,41 @@ export class DeviceTerm {
         const data = this.codeInput.value;
         if (!data) return;
         this.codeInput.value = '';
-        WSC.send({ cmd: 'serialSendData', data: data.toUpperCase() + '\n' });
+        const command = data.toUpperCase();
+        this.cmdHistory.push(command);
+        this.cmdHistoryCursor = 0;
+        WSC.send({ cmd: 'serialSendData', data: command + '\n' });
+    }
+
+    static loadHistory(index) {
+        if (this.cmdHistoryCursor === 0) {
+            this.codeInput.value = '';
+            return;
+        }
+        if (this.cmdHistory[index]) {
+            this.codeInput.value = this.cmdHistory[index];
+        }
     }
 
     static onKey(e: KeyboardEvent) {
+        if (e && ['ArrowUp', 'ArrowDown'].indexOf(e.key) > -1) {
+            const dir = e.key === 'ArrowUp' ? 1 : -1;
+            const l = this.cmdHistory.length;
+            this.cmdHistoryCursor = Math.min(
+                Math.max(0, this.cmdHistoryCursor + dir),
+                l
+            );
+            const c = l - this.cmdHistoryCursor;
+            this.loadHistory(c);
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
+
         if (e && e.keyCode === 13) {
             this.sendCode();
+        } else {
+            // console.log(e.key)
         }
     }
 
