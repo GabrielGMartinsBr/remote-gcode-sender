@@ -17,7 +17,7 @@ let bindedArr: { element, method, eventType }[] = []
 function bindListeners() {
     bindedArr = [];
     for (const i of toBindArr) {
-        console.log(i);
+        // console.log(i);
         if (!i || !i.target || !i.elKey || !i.methodKey || !i.eventType) {
             continue;
         }
@@ -28,7 +28,7 @@ function bindListeners() {
             console.log('NOT', !(element instanceof Element))
             continue;
         }
-        console.log(i.target);
+        // console.log(i.target);
         element.addEventListener(type, method.bind(i.target));
         bindedArr.push({ eventType: type, method, element })
     }
