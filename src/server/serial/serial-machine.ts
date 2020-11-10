@@ -97,4 +97,21 @@ export class SerialMachine {
         WSS.broadcast(pack);
     }
 
+    executePresetCommand(command: string) {
+        switch (command) {
+            case 'Home':
+                this.send(`G28\n`);
+                break;
+            case 'HomeX':
+                this.send(`G28 X\n`);
+                break;
+            case 'HomeY':
+                this.send(`G28 Y\n`);
+                break;
+            case 'HomeZ':
+                this.send(`G28 Z\n`);
+                break;
+        }
+    }
+
 }

@@ -18,7 +18,7 @@ export class WSC {
         this.wsc = new WebSocket(`ws://${ip}:9010`);
 
         this.wsc.addEventListener('open', () => {
-            console.log('opened');
+            // console.log('opened');
             this.send({ cmd: 'test' })
             this.send({ cmd: 'serialGetStatus' })
         })

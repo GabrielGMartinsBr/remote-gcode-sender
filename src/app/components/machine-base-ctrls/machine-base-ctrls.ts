@@ -4,6 +4,7 @@ import { WSC } from "src/app/wsc/wsc";
 @Comp()
 export class MachineBaseCtrls {
     @Ref('tlBtn') tlBtn;
+    @Ref('homeBtn') homeBtn;
     @Ref('homeXBtn') homeXBtn;
     @Ref('homeYBtn') homeYBtn;
     @Ref('homeZBtn') homeZBtn;
@@ -21,6 +22,10 @@ export class MachineBaseCtrls {
         // WSC.send({ cmd: 'serialGetLog' });
         // console.log(this.myName);
         // console.log(this, e, this.myName);
+    }
+
+    @On('click', 'homeBtn') onHome() {
+        WSC.send({ cmd: 'serialSendPresetCommand', data: 'Home' });
     }
 
     @On('click', 'homeXBtn') onHomeX() {

@@ -8,6 +8,7 @@ import { DeviceSelector } from './device-selector/device-selector';
 import { DeviceSelected } from './device-selected/device-selected';
 import { FileCtrl } from './file-ctrl/file-ctrl';
 import { DeviceTerm } from './device-term/device-term';
+import { MachineBaseCtrls } from './machine-base-ctrls/machine-base-ctrls';
 
 export class AppComponent {
     private static template = require('./app.pug');
@@ -16,10 +17,14 @@ export class AppComponent {
     static connected = false;
 
     static init(wrap: HTMLElement) {
+        console.log('init')
         this.wrap = wrap;
         this.render();
 
         this.listenWS();
+
+        const machineCtrl = new MachineBaseCtrls();
+        console.log({ machineCtrl });
     }
 
     static listenWS() {
@@ -52,7 +57,7 @@ export class AppComponent {
     }
 
     private static onDeviceStatus(status) {
-        console.log({ status });
+        // console.log({ status });
 
         if (!status) return;
 
@@ -67,13 +72,11 @@ export class AppComponent {
 
     }
 
-
     private static render() {
+        console.log('render')
         d3.select(this.wrap).html(this.template({
             connected: this.connected
         }))
     }
-
-
 
 }

@@ -62,6 +62,12 @@ export class Serial {
                 }
                 break;
 
+            case 'serialSendPresetCommand':
+                if (pack.data && typeof pack.data === 'string') {
+                    this.device.executePresetCommand(pack.data);
+                    break;
+                }
+
             default:
                 console.warn('unexpected pack', pack);
         }
