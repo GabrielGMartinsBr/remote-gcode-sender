@@ -1,22 +1,14 @@
 import './main.scss';
 
-import { AppComponent } from './components/app';
 import { WSC } from './wsc/wsc';
+import { Framework } from './framework/framework';
 
 function init() {
     WSC.init();
 
-    render();
+    const framework = new Framework('#app');
+    framework.init();
 
-}
-
-function render() {
-    const appWrap = document.querySelector('#app') as HTMLElement;
-    if (!appWrap) {
-        throw 'app wrap not found!';
-    }
-
-    AppComponent.init(appWrap);
 }
 
 document.addEventListener('DOMContentLoaded', () => init())

@@ -3,6 +3,8 @@
         "outDir": "dist/",
         "sourceMap": true,
         "target": "ES5",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "baseUrl": "./src",
         "paths": {
             "src/*": ["./*"],
