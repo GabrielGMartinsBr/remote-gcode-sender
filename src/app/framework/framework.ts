@@ -12,33 +12,57 @@ interface CompOpts {
 const toBindArr: { target, elKey, methodKey, eventType }[] = []
 let bindedArr: { element, method, eventType }[] = []
 
-// 
+const instArr = [];
+const instMap = new Map<string, any[]>()
+
+//
 
 function bindListeners() {
-    bindedArr = [];
-    for (const i of toBindArr) {
-        // console.log(i);
-        if (!i || !i.target || !i.elKey || !i.methodKey || !i.eventType) {
-            continue;
+    let selector: string;
+    for (const i of instArr) {
+        for (const b of toBindArr) {
+            selector = b && b.target && b.target['$_selector_$'];
+            if (selector && selector === i['$_selector_$']) {
+                // console.log({ i, b })
+                const element = i[b.elKey];
+                const method = i[b.methodKey];
+                const type = b.eventType;
+                // console.log({ i, type, method, element });
+                if (!(element instanceof Element) || typeof method !== 'function' || typeof type !== 'string') {
+                    continue;
+                }
+                element.addEventListener(type, method.bind(i));
+            }
         }
-        const element = i.target[i.elKey];
-        const method = i.target[i.methodKey];
-        const type = i.eventType;
-        if (!(element instanceof Element) || typeof method !== 'function' || typeof type !== 'string') {
-            // console.log('NOT', !(element instanceof Element))
-            continue;
-        }
-        // console.log(i.target);
-        element.addEventListener(type, method.bind(i.target));
-        bindedArr.push({ eventType: type, method, element })
     }
 }
 
-function unbindListeners() {
-    for (const i of bindedArr) {
-        i.element.removeEventListener(i.eventType, i.method);
-    }
-}
+// function bindListeners() {
+//     bindedArr = [];
+//     for (const i of toBindArr) {
+//         // console.log(i);
+//         if (!i || !i.target || !i.elKey || !i.methodKey || !i.eventType) {
+//             continue;
+//         }
+//         const element = i.target[i.elKey];
+//         // console.log(element)
+//         const method = i.target[i.methodKey];
+//         const type = i.eventType;
+//         if (!(element instanceof Element) || typeof method !== 'function' || typeof type !== 'string') {
+//             // console.log('NOT', !(element instanceof Element))
+//             continue;
+//         }
+//         // console.log(i.target);
+//         element.addEventListener(type, method.bind(i.target));
+//         bindedArr.push({ eventType: type, method, element })
+//     }
+// }
+
+// function unbindListeners() {
+//     for (const i of bindedArr) {
+//         i.element.removeEventListener(i.eventType, i.method);
+//     }
+// }
 
 // function main() {
 //     function init() {
@@ -58,14 +82,23 @@ function unbindListeners() {
 
 export function Comp({ selector } = {} as CompOpts) {
 
-    return function (constructor: Function) {
+    return function (constructor: any) {
         selector = selector || constructor.name;
         selector = camelToSnakeCase(selector);
+
+        let f: any = function (...args) {
+            const inst = new constructor(...args);
+            instArr.push(inst);
+            console.log(instArr);
+            return inst;
+        }
 
         Object.defineProperty(constructor.prototype, '$_selector_$', {
             get: () => selector,
             enumerable: true
         });
+
+        return f;
     }
 }
 
@@ -76,8 +109,8 @@ export function Ref(name) {
 
         function get() {
             const selector = target['$_selector_$'];
-            const q = `.${selector} [ref='${name}']`;
-            console.log(selector);
+            const q = `.app-${selector} [ref='${name}']`;
+            // console.log(selector);
             return document.querySelector(q)
         }
 
@@ -109,8 +142,6 @@ export class Framework {
 
     init() {
         console.log('init')
-
-        // document.addEventListener('DOMContentLoaded', this.onLoad.bind(this));
         this.onLoad();
     }
 
@@ -127,14 +158,8 @@ export class Framework {
         AppComponent.init(this.wrap);
 
         observeDOM(this.wrap, function (m) {
-            // var addedNodes = [], removedNodes = [];
-            // m.forEach(record => record.addedNodes.length & addedNodes.push(...record.addedNodes))
-            // m.forEach(record => record.removedNodes.length & removedNodes.push(...record.removedNodes))
-            // // console.clear();
-            // console.log('Added:', addedNodes, 'Removed:', removedNodes);
             bindListeners();
-            console.log('mutations')
-            
+            // console.log('mutations')
         });
     }
 

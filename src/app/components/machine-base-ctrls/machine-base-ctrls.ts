@@ -29,6 +29,7 @@ export class MachineBaseCtrls {
     }
 
     @On('click', 'homeXBtn') onHomeX() {
+        console.log('homeX')
         WSC.send({ cmd: 'serialSendPresetCommand', data: 'HomeX' });
     }
 
@@ -44,16 +45,16 @@ export class MachineBaseCtrls {
         WSC.send({ cmd: 'serialSendPresetCommand', data: 'DirTop1x' });
     }
 
-    @On('click', 'dirTBtn') onDirR() { 
+    @On('click', 'dirRBtn') onDirR() { 
         WSC.send({ cmd: 'serialSendPresetCommand', data: 'DirRight1x' });
     }
 
-    @On('click', 'dirTBtn') onDirB() { 
+    @On('click', 'dirBBtn') onDirB() { 
         WSC.send({ cmd: 'serialSendPresetCommand', data: 'DirBottom1x' });
     }
 
-    @On('click', 'dirTBtn') onDirL() { 
-        WSC.send({ cmd: 'serialSendPresetCommand', data: 'DirTop1x' });
+    @On('click', 'dirLBtn') onDirL() { 
+        WSC.send({ cmd: 'serialSendPresetCommand', data: 'DirLeft1x' });
     }
 
 }

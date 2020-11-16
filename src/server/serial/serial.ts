@@ -1,6 +1,7 @@
 import * as SerialPort from 'serialport';
 import { WSS, WSSEvent, WSSPack } from '../wss/wss';
 import { SerialMachine } from './serial-machine';
+import { FileManager } from '../file-manager';
 
 export class Serial {
     static device: SerialMachine;
@@ -62,11 +63,20 @@ export class Serial {
                 }
                 break;
 
+            case 'serialGetFiles':
+                this.sendFiles(sock);
+                break;
+
             case 'serialSendPresetCommand':
                 if (pack.data && typeof pack.data === 'string') {
                     this.device.executePresetCommand(pack.data);
                     break;
                 }
+            case 'serialPrintWorkbenchFile':
+                if (pack.data && typeof pack.data === 'string') {
+                    this.printWorkbenchFile(pack.data);
+                }
+                break;
 
             default:
                 console.warn('unexpected pack', pack);
@@ -99,6 +109,16 @@ export class Serial {
     private static sendLogs(sock) {
         const pack: WSSPack = { cmd: 'serialDataLogs', data: this.device.log.join('\n') || '' };
         WSS.send(pack, sock);
+    }
+
+    private static async sendFiles(sock) {
+        const files = await FileManager.workbenchFiles();
+        const pack: WSSPack = { cmd: 'serialDataFiles', data: files || [] };
+        WSS.send(pack, sock);
+    }
+
+    private static async printWorkbenchFile(fileName) {
+        this.device.startPrint(fileName);
     }
 
 }

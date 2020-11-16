@@ -54,4 +54,13 @@ export class FileManager {
         }
     }
 
+    static async workbenchFiles() {
+        try {
+            return await fs.promises.readdir(this.workbenchPath);
+        } catch (ex) {
+            console.error(ex);
+            return null;
+        }
+    }
+
 }

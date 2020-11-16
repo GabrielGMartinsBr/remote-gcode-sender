@@ -53,6 +53,7 @@ export class SerialMachine {
     }
 
     send(data) {
+        console.log(data);
         if (!this.port.writable) {
             console.warn('serial port is not writable');
             return;

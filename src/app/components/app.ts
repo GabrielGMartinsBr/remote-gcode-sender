@@ -9,12 +9,15 @@ import { DeviceSelected } from './device-selected/device-selected';
 import { FileCtrl } from './file-ctrl/file-ctrl';
 import { DeviceTerm } from './device-term/device-term';
 import { MachineBaseCtrls } from './machine-base-ctrls/machine-base-ctrls';
+import { WorkbenchFiles } from './workbench-files/workbench-files';
 
 export class AppComponent {
     private static template = require('./app.pug');
     private static wrap: HTMLElement;
 
     static connected = false;
+
+    private static workbenchFiles: WorkbenchFiles;
 
     static init(wrap: HTMLElement) {
         console.log('init')
@@ -24,11 +27,12 @@ export class AppComponent {
         this.listenWS();
 
         const machineCtrl = new MachineBaseCtrls();
-        console.log({ machineCtrl });
+        this.workbenchFiles = new WorkbenchFiles();
+        // console.log({ machineCtrl });
     }
 
     static listenWS() {
-        const cmds = ['serialDataDevices', 'serialDeviceStatus', 'serialDataLogs', 'serialDataLog'];
+        const cmds = ['serialDataDevices', 'serialDeviceStatus', 'serialDataLogs', 'serialDataLog', 'serialDataFiles'];
         WSC.events
             .pipe(filter(e => e && cmds.indexOf(e.cmd) > -1))
             .subscribe(event => {
@@ -42,6 +46,8 @@ export class AppComponent {
                         return DeviceTerm.updateLogs(event.data);
                     case 'serialDataLog':
                         return DeviceTerm.pushLog(event.data);
+                    case 'serialDataFiles':
+                        return this.workbenchFiles.setFiles(event.data);
                 }
             });
     }
