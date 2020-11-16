@@ -9,6 +9,11 @@
         text-transform: uppercase;
     }
 
+    pre {
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+
     .ml-auto {
         margin-left: auto;
     }
@@ -35,6 +40,7 @@
         .device-item {
             display: flex;
             align-items: center;
+            flex-wrap: wrap-reverse;
             margin-bottom: 16px;
             background: rgba(#fff, .1);
 
