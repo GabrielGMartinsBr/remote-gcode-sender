@@ -12,6 +12,12 @@ export class DeviceTerm {
     private static cmdHistoryCurrent: string;
 
     static init() {
+        try {
+            const data = JSON.parse(localStorage.getItem('RemoteGcodeSender-cmdHistory'));
+            this.cmdHistory = Array.isArray(data) ? data : [];
+        } catch (ex) {
+            console.error(ex);
+        }
         this.bind();
     }
 
@@ -83,6 +89,7 @@ export class DeviceTerm {
             this.cmdHistory.push(command);
         }
         this.cmdHistoryCursor = 0;
+        localStorage.setItem('RemoteGcodeSender-cmdHistory', JSON.stringify(this.cmdHistory));
     }
 
     static onKey(e: KeyboardEvent) {
