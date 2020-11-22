@@ -28,7 +28,7 @@ export class WSS {
             console.log('has connection');
 
             sock.addEventListener('message', event => {
-                this.handleData(event.data, sock);
+                this.handleData(event.data, sock as any);
             })
         })
     }

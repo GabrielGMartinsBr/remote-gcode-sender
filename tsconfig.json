@@ -1,15 +1,26 @@
 {
+    "include": [
+        "src"
+    ],
     "compilerOptions": {
         "outDir": "dist/",
+        // Old
         "sourceMap": true,
-        "target": "ES5",
+        // "target": "ES5",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
+        "noImplicitAny": false,
         "baseUrl": "./src",
         "paths": {
-            "src/*": ["./*"],
-            "server/*": ["./server/*"],
-            "app/*": ["./app/*"],
+            "src/*": [
+                "./*"
+            ],
+            "server/*": [
+                "./server/*"
+            ],
+            "app/*": [
+                "./app/*"
+            ],
         }
     }
 }

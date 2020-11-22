@@ -1,13 +1,27 @@
 {
     "extends": "./tsconfig.json",
-    "compilerOptions": {
-        "outDir": "dist/server/",
-        "moduleResolution": "node",
-        "module": "ES2020",
-        "target": "es5",
-
-    },
     "exclude": [
         "src/server"
-    ]
+    ],
+    "compilerOptions": {
+        "outDir": "dist/app/",
+        // "moduleResolution": "node",
+        // "module": "ES2020",
+        // "target": "es5",
+        // React settings
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "strict": false, // TODO: set to true after fix code
+        "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react",
+        // workgrounds
+        "noImplicitAny": false
+    },
 }

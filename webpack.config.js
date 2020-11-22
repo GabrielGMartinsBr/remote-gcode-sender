@@ -1,34 +1,44 @@
-const Dotenv = require('dotenv-webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+/* eslint-disable @typescript-eslint/no-var-requires */
 
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (env = {}) => {
     const isDevServer = env.isDevServer || false;
     return {
         entry: {
-            main: './src/app/index.ts',
+            main: './src/app/app-main.tsx',
         },
         devtool: 'inline-source-map',
         mode: 'development',
         module: {
             rules: [{
-                    test: /\.tsx?$/,
-                    use: 'ts-loader',
-                    exclude: /node_modules/
-                },
-                {
-                    test: /\.scss$/,
-                    use: [
-                        "style-loader",
-                        "css-loader",
-                        "sass-loader"
-                    ]
-                },
-                {
-                    test: /\.pug/,
-                    loader: 'pug-loader',
-                }
+                test: /\.(ts|js)x?$/,
+                use: [{
+                    loader: "babel-loader",
+                    options: {
+                        presets: [
+                            "@babel/preset-env",
+                            "@babel/preset-react",
+                            "@babel/preset-typescript",
+                        ],
+                    }
+                }],
+                exclude: [/node_modules/, /src\/server/]
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    "sass-loader"
+                ]
+            },
+            {
+                test: /\.pug/,
+                loader: 'pug-loader',
+            }
             ]
         },
         resolve: {
