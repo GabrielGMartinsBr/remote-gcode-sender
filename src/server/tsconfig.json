@@ -1,7 +1,7 @@
 {
     "extends": "../../tsconfig.json",
     "exclude": [
-        "src/app"
+        "../app"
     ],
     "compilerOptions": {
         "outDir": "../../dist/server",
