@@ -1,20 +1,20 @@
 {
-    "extends": "./tsconfig.json",
+    "extends": "../../tsconfig.json",
     "exclude": [
         "src/app"
     ],
     "compilerOptions": {
-        "outDir": "dist/server",
+        "outDir": "../../dist/server",
         "module": "CommonJS",
         "moduleResolution": "node",
         "target": "es6",
-        "baseUrl": "./src/server",
+        "baseUrl": "./",
         "paths": {
             "src/*": [
                 "../*"
             ],
             "server/*": [
-                "../server/*"
+                "./*"
             ],
             "app/*": [
                 "../app/*"

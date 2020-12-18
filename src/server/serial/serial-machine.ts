@@ -13,6 +13,7 @@ export class SerialMachine {
 
     constructor(private portInfo: SerialPort.PortInfo) {
         this.port = new SerialPort(portInfo.path, { autoOpen: false, baudRate: 115200 });
+        // this.port = new SerialPort(portInfo.path, { autoOpen: false, baudRate: 250000 });
         this.parser = new SerialPort.parsers.Readline({ delimiter: '\n' });
         this.port.pipe(this.parser)
         this.parser.addListener('data', this.onData.bind(this));
