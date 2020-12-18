@@ -1,13 +1,17 @@
-import { Subject } from 'rxjs';
-import { WSSPack } from 'src/server/wss/wss';
+import { Subject, ReplaySubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import axios from 'axios';
+
+import { WSSPack } from 'src/server/wss/wss';
 
 export class WSC {
     private static started = false;
     private static wsc: WebSocket;
     private static eventsSbj = new Subject<WSSPack>();
+    private static readySbj = new ReplaySubject<void>();
 
     static events = WSC.eventsSbj.asObservable();
+    static ready = WSC.readySbj.asObservable().pipe(take(1));
 
     static async init() {
         if (this.started) return;
@@ -21,6 +25,9 @@ export class WSC {
             // console.log('opened');
             this.send({ cmd: 'test' })
             this.send({ cmd: 'serialGetStatus' })
+            this.readySbj.next();
+            this.readySbj.complete();
+            console.log(`connected to ws://${ip}:9010`)
         })
 
         this.wsc.addEventListener('message', event => {

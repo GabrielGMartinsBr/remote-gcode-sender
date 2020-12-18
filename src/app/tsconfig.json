@@ -1,10 +1,10 @@
 {
-    "extends": "./tsconfig.json",
+    "extends": "../../tsconfig.json",
     "exclude": [
         "src/server"
     ],
     "compilerOptions": {
-        "outDir": "dist/app/",
+        "outDir": "../../dist/app/",
         // "moduleResolution": "node",
         // "module": "ES2020",
         // "target": "es5",

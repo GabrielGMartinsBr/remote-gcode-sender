@@ -1,0 +1,52 @@
+.device-selector-page {
+
+    .page-header {
+        display: flex;
+        align-items: center;
+
+        margin-bottom: 16px;
+        padding: 16px;
+
+        background: rgba(#fff, .1);
+
+        h2 {
+            margin: 0;
+            font-size: 28px;
+        }
+    }
+
+    pre {
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+
+    .devices-list {
+        .loading-message {
+            background: rgba(#fff, .1);
+            text-align: center;
+            padding: 64px 16px;
+        }
+
+        .device-item {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap-reverse;
+            margin-bottom: 16px;
+            background: rgba(#fff, .1);
+
+            .device-info {
+                flex: 1 1 auto;
+                margin-right: 32px;
+                padding: 16px;
+
+            }
+
+            .device-actions {
+                user-select: none;
+                margin-left: auto;
+                padding: 16px;
+            }
+        }
+    }
+
+}

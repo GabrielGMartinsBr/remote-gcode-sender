@@ -8,7 +8,6 @@ function init() {
 
     const framework = new Framework('#app');
     framework.init();
-
 }
 
 document.addEventListener('DOMContentLoaded', () => init())
