@@ -3,26 +3,26 @@ import * as fs from 'fs';
 
 export class FileManager {
     static baseDir: string;
-    static appdataPath: string;
+    static appDataPath: string;
     static libPath: string;
     static confPath: string;
     static workbenchPath: string;
 
     static async setupDirs() {
         this.baseDir = this.getEnvPath();
-        this.appdataPath = path.join(this.baseDir, 'appdata');
-        this.libPath = path.join(this.appdataPath, 'lib');
-        this.confPath = path.join(this.appdataPath, 'conf');
-        this.workbenchPath = path.join(this.appdataPath, 'workbench');
+        this.appDataPath = path.join(this.baseDir, 'appData');
+        this.libPath = path.join(this.appDataPath, 'lib');
+        this.confPath = path.join(this.appDataPath, 'conf');
+        this.workbenchPath = path.join(this.appDataPath, 'workbench');
 
-        await this.makeDirIf(this.appdataPath);
+        await this.makeDirIf(this.appDataPath);
         await this.makeDirIf(this.libPath);
         await this.makeDirIf(this.confPath);
         await this.makeDirIf(this.workbenchPath);
     }
 
     private static getEnvPath() {
-        const filepath = process.env.appdata;
+        const filepath = process.env.appData;
         if (!filepath) {
             return path.resolve('./');
         }

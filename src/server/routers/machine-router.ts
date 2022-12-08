@@ -3,7 +3,7 @@ import * as multer from 'multer';
 import { Serial } from '../serial/serial';
 
 var storage = multer.diskStorage({
-    destination: './appdata/workbench',
+    destination: './appData/workbench',
     filename(req, file, cb) {
         cb(null, file.originalname)
     },

@@ -1,12 +1,12 @@
 import * as express from 'express';
 import * as moment from 'moment'
 
+import * as dotenv from 'dotenv';
 import { FileManager } from './file-manager';
 import { WSS } from './wss/wss';
 import { Serial } from './serial/serial';
 import { paramsRouter } from './routers/params-router';
 import { frontAppRouter } from './routers/front-app-router';
-import * as dotenv from 'dotenv';
 import { machineRouter } from './routers/machine-router';
 
 const PORT = 9000;
