@@ -2,7 +2,7 @@ import { Subject, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import axios from 'axios';
 
-import { WSSPack } from 'src/server/wss/wss';
+import { WSSPack } from 'src/node./wss/wss';
 
 export class WSC {
     private static started = false;
