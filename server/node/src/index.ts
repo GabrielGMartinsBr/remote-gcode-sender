@@ -6,7 +6,6 @@ import { FileManager } from './file-manager';
 import { WSS } from './wss/wss';
 import { Serial } from './serial/serial';
 import { paramsRouter } from './routers/params-router';
-import { frontAppRouter } from './routers/front-app-router';
 import { machineRouter } from './routers/machine-router';
 
 const PORT = 9000;
@@ -33,7 +32,6 @@ class App {
         Serial.init();
 
         // Setup routes
-        this.server.use(frontAppRouter);
         this.server.use('/params', paramsRouter);
         this.server.use('/machine', machineRouter)
 

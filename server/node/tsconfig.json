@@ -1,24 +1,17 @@
 {
-    "extends": "../../tsconfig.json",
-    "exclude": [
-        "../app"
-    ],
+  "ts-node": {
+    // It is faster to skip typechecking.
+    // Remove if you want ts-node to do typechecking.
+    "transpileOnly": true,
+    "files": true,
     "compilerOptions": {
-        "outDir": "../../dist/server",
-        "module": "CommonJS",
-        "moduleResolution": "node",
-        "target": "es6",
-        "baseUrl": "./",
-        "paths": {
-            "src/*": [
-                "../*"
-            ],
-            "server/*": [
-                "./*"
-            ],
-            "app/*": [
-                "../app/*"
-            ],
-        }
+      // compilerOptions specified here will override those declared below,
+      // but *only* in ts-node.  Useful if you want ts-node and tsc to use
+      // different options with a single tsconfig.json.
     }
+  },
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node"
+  }
 }

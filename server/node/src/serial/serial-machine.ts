@@ -1,4 +1,4 @@
-import * as SerialPort from 'serialport';
+import { SerialPort, ReadlineParser, } from 'serialport';
 import * as moment from 'moment';
 import { PrintQueue } from './print-queue';
 import { WSS, WSSPack } from '../wss/wss';
@@ -8,13 +8,13 @@ export class SerialMachine {
     log: string[] = [];
 
     private connected: boolean;
-    private parser: SerialPort.parsers.Readline;
+    private parser: ReadlineParser;
     private queue: PrintQueue;
 
-    constructor(private portInfo: SerialPort.PortInfo) {
-        this.port = new SerialPort(portInfo.path, { autoOpen: false, baudRate: 115200 });
+    constructor(private portInfo) {
+        this.port = new SerialPort({ autoOpen: false, baudRate: 115200, path: portInfo.path, });
         // this.port = new SerialPort(portInfo.path, { autoOpen: false, baudRate: 250000 });
-        this.parser = new SerialPort.parsers.Readline({ delimiter: '\n' });
+        this.parser = new ReadlineParser({ delimiter: '\n' });
         this.port.pipe(this.parser)
         this.parser.addListener('data', this.onData.bind(this));
         this.connected = true;
@@ -39,7 +39,7 @@ export class SerialMachine {
         })
     }
 
-    disconect() {
+    disconnect() {
         if (!this.port.isOpen) {
             return;
         }

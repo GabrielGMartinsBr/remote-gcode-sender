@@ -1,6 +1,6 @@
-import SerialPort = require("serialport");
+import { SerialPort, ReadlineParser } from 'serialport';
 
-import { FileManager } from "../file-manager";
+import { FileManager } from '../file-manager';
 
 export class PrintQueue {
     index: number;
@@ -9,7 +9,7 @@ export class PrintQueue {
     private content: string;
     private lines: string[];
 
-    constructor(private port: SerialPort, private parser: SerialPort.parsers.Readline) {
+    constructor(private port: SerialPort, private parser: ReadlineParser) {
         this.onSerialData = this.onSerialData.bind(this);
         this.destroy = this.destroy.bind(this);
 

@@ -1,5 +1,5 @@
-import * as SerialPort from 'serialport';
-import { WSS, WSSEvent, WSSPack } from '../src/wss/wss';
+import { SerialPort } from 'serialport';
+import { WSS, WSSEvent, WSSPack } from '../wss/wss';
 import { SerialMachine } from './serial-machine';
 import { FileManager } from '../file-manager';
 
@@ -28,7 +28,7 @@ export class Serial {
     static handle({ pack, sock } = {} as WSSEvent) {
         switch (pack.cmd) {
             case 'serialDisconect':
-                this.device.disconect();
+                this.device.disconnect();
                 this.sendDeviceStatus(sock);
                 break;
 
@@ -97,7 +97,7 @@ export class Serial {
         WSS.send(pack, sock);
     }
 
-    private static async connectDevice(portInfo: SerialPort.PortInfo, sock) {
+    private static async connectDevice(portInfo, sock) {
         if (!portInfo || !portInfo.path) {
             console.warn('invalid portInfo', portInfo);
             return;
