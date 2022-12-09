@@ -1,9 +1,8 @@
-import React from 'react';
-import { WSC } from '../wsc/wsc';
+import { WSC } from '../../wsc/wsc';
 
 export function BasicControls() {
 
-    function sendCommand(key) {
+    function sendCommand(key: string) {
         const commands = {
             'homeAll': 'G28\n',
             'homeX': 'G28 X\n',
@@ -11,7 +10,7 @@ export function BasicControls() {
             'homeZ': 'G28 Z\n',
             'motorsOn': 'M17\n',
             'motorsOff': 'M84\n',
-        }
+        } as any;
 
         const command = commands[key];
 

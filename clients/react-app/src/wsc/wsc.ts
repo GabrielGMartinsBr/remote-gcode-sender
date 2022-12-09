@@ -1,8 +1,7 @@
 import { Subject, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import axios from 'axios';
+import { WSSPack } from '../types/wss-types';
 
-import { WSSPack } from 'src/node./wss/wss';
 
 export class WSC {
     private static started = false;
@@ -22,7 +21,7 @@ export class WSC {
         this.wsc = new WebSocket(`ws://${ip}:9010`);
 
         this.wsc.addEventListener('open', () => {
-            // console.log('opened');
+            console.log('opened');
             this.send({ cmd: 'test' })
             this.send({ cmd: 'serialGetStatus' })
             this.readySbj.next();
@@ -67,7 +66,11 @@ export class WSC {
             return;
         }
         if (this.wsc.readyState !== this.wsc.OPEN) {
-            console.warn('pack not sent', 'client is not connected', { readyState: this.wsc.readyState });
+            console.warn(
+                'pack not sent',
+                'client is not connected',
+                { readyState: this.wsc.readyState }
+            );
             return;
         }
         const strData = JSON.stringify({ cmd, data });
@@ -75,7 +78,6 @@ export class WSC {
     }
 
     private static async getIp() {
-        const res = await axios.get('/params/ip');
-        return res && res.data && res.data.ip || null;
+        return '192.168.1.100'
     }
 }

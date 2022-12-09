@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useRef } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 
 interface DeviceMng {
     logs: string[];
@@ -9,7 +9,7 @@ const DeviceMngContext = createContext<DeviceMng>({
     logs: []
 });
 
-export function DeviceMngProvider({ children }) {
+export function DeviceMngProvider({ children }: any) {
     const [logs, setLogs] = useState([] as string[]);
 
     return (
@@ -24,7 +24,7 @@ export function useLogs() {
     const { logs, setLogs } = context;
     // const logsRef = useRef(setLogs);
 
-    function pushLog(log) {
+    function pushLog(log: string) {
         if (typeof setLogs !== 'function') {
             console.warn('set logs not accessible');
             return;

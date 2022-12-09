@@ -1,5 +1,5 @@
 import React from 'react';
-import { WSC } from '../wsc/wsc';
+import { WSC } from '../../wsc/wsc';
 
 export function DeviceStatus() {
 

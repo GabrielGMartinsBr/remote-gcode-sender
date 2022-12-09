@@ -3,12 +3,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-import { WSC } from '../wsc/wsc';
+import { WSC } from '../../wsc/wsc';
 // import { useLogs } from './device-mng-context';
 
-export function DeviceTerm({ logs }) {
+export function DeviceTerm({ logs }: any) {
     const [cmd, setCmd] = useState('')
-    const [cmdHist, setCmdHist] = useState([])
+    const [cmdHist, setCmdHist] = useState<string[]>([])
     const [cmdHistCursor, setCmdHistCursor] = useState(0)
     const [typingCmd, setTypingCmd] = useState('');
     const preRef = useRef(null);
@@ -50,14 +50,20 @@ export function DeviceTerm({ logs }) {
 
     function loadCmdHitory() {
         try {
-            const data = JSON.parse(localStorage.getItem('RemoteGcodeSender-cmdHistory'));
-            setCmdHist(Array.isArray(data) && data || []);
+            const str = localStorage.getItem('RemoteGcodeSender-cmdHistory');
+            if (str) {
+                const data = JSON.parse(str);
+                setCmdHist(
+                    (Array.isArray(data) ? data : []) as any
+                );
+            }
+
         } catch (ex) {
             console.error(ex);
         }
     }
 
-    function pushCmdHistory(command) {
+    function pushCmdHistory(command: any) {
         const lastIndex = Math.max(cmdHist.length - 1, 0);
         if (command && cmdHist[lastIndex] !== command) {
             setCmdHist([...cmdHist, command]);
@@ -123,9 +129,11 @@ export function DeviceTerm({ logs }) {
         }
         const pre = d3.select(preRef.current);
 
-        pre.transition().duration(4e2).tween('uniquetweenname', scrollTopTween(pre.property('scrollHeight')))
+        pre.transition()
+            .duration(4e2)
+            .tween('uniquetweenname', scrollTopTween(pre.property('scrollHeight')))
 
-        function scrollTopTween(scrollTop) {
+        function scrollTopTween(scrollTop: any) {
             return function () {
                 const i = d3.interpolateNumber(this.scrollTop, scrollTop);
                 return function (t) { this.scrollTop = i(t); };
@@ -148,9 +156,23 @@ export function DeviceTerm({ logs }) {
             </div>
 
             <div className="device-term-input">
-                <input type="text" onKeyDown={e => onKey(e)} onChange={e => setCmd(e.target.value)} value={cmd} />
-                <button type="button" onClick={sendCmd}>Send</button>
-                <button type="button" onClick={getLogs}>Refresh</button>
+                <input
+                    type="text"
+                    onKeyDown={e => onKey(e)}
+                    onChange={e => setCmd(e.target.value)}
+                    value={cmd}
+                />
+                <button
+                    type="button"
+                    onClick={sendCmd}
+                >
+                    Send
+                </button>
+                <button
+                    type="button"
+                    onClick={getLogs}>
+                    Refresh
+                </button>
             </div>
         </div>
     )

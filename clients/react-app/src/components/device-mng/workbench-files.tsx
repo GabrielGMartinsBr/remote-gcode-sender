@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { WSC } from '../wsc/wsc';
+import { WSC } from '../../wsc/wsc';
 
 export function WorkbenchFiles({ files }) {
     const [selected, setSelected] = useState(null);

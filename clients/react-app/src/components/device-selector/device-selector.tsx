@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps*/
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
+import { WSC } from '../../wsc/wsc';
 import './device-selector.scss';
-import { WSC } from '../wsc/wsc';
 
 export function DeviceSelectorPage() {
     const pageRef = useRef(null);
@@ -47,14 +47,14 @@ export function DeviceSelectorPage() {
             });
     }
 
-    function connect(portInfo) {
+    function connect(portInfo: any) {
         console.log('connect', { portInfo });
         WSC.send({ cmd: 'serialConnectDevice', data: { portInfo } });
     }
 
     // Renders
 
-    function deviceItem(i, index) {
+    function deviceItem(i: any, index: number) {
         return (
             <div key={index} className="device-item">
                 <div className="device-info">

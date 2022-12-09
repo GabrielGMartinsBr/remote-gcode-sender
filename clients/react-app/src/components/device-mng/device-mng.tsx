@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 
-import { WSC } from '../wsc/wsc';
+import { WSC } from '../../wsc/wsc';
 import { DeviceMngProvider } from './device-mng-context';
 import { DeviceStatus } from './device-status';
 import { BasicControls } from './basic-controls';
