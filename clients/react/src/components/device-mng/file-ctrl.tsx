@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import axios from 'axios';
 
 export function FileCtrl() {
@@ -6,7 +6,8 @@ export function FileCtrl() {
     const [fileContent, setFileContent] = useState('');
 
     async function onInputFile() {
-        const file = inputRef?.current?.files[0];
+        if (!inputRef.current) return;
+        const file = inputRef.current.files?.[0];
         if (!file) return;
         try {
             const data = await readFile(file);
@@ -18,13 +19,13 @@ export function FileCtrl() {
     }
 
     function print() {
-        const file = inputRef?.current?.files[0];
+        const file = inputRef.current?.files?.[0];
         if (!file) return;
         uploadFile(file);
     }
 
-    function readFile(file): Promise<string> {
-        if (!file) return null;
+    function readFile(file: any): Promise<string> {
+        if (!file) return Promise.reject(null);
         return new Promise((res, rej) => {
             const fr = new FileReader();
             fr.addEventListener('error', error => rej(error));
@@ -33,12 +34,20 @@ export function FileCtrl() {
         })
     }
 
-    async function uploadFile(file) {
+    async function uploadFile(file: any) {
         const formData = new FormData();
         formData.append('gcode', file);
         const headers = { 'Content-Type': 'multipart/form-data' };
-        const res = await axios.post('/machine/gcode', formData, { headers })
-        console.log(res);
+        try {
+            const res = await axios.post(
+                'http://192.168.1.100:9000/machine/gcode',
+                formData,
+                { headers }
+            )
+            console.log(res);
+        } catch (ex) {
+            console.warn(ex);
+        }
     }
 
     return (
