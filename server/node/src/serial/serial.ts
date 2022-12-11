@@ -12,6 +12,7 @@ export class Serial {
 
     static async getDevices() {
         const devices = await SerialPort.list();
+        console.log(devices);
         return devices.filter(i => i && i.path && i.productId);
     }
 
