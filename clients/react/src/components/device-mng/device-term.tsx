@@ -1,24 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, useEffect, useRef } from 'react';
-import * as d3 from 'd3';
+import { useAppContext } from '@/AppContext';
 
-import { WSC } from '../../wsc/wsc';
 // import { useLogs } from './device-mng-context';
 
 export function DeviceTerm({ logs }: any) {
+    const { wsClient } = useAppContext();
+
     const [cmd, setCmd] = useState('')
     const [cmdHist, setCmdHist] = useState<string[]>([])
     const [cmdHistCursor, setCmdHistCursor] = useState(0)
     const [typingCmd, setTypingCmd] = useState('');
-    const preRef = useRef(null);
+    const endElRef = useRef<HTMLDivElement>(null);
     // const { logs } = useLogs();
 
-    /*
-        Effects
-    */
-
-    // On Init
     useEffect(() => onInit(), [])
 
     // Save Command History
@@ -29,9 +25,11 @@ export function DeviceTerm({ logs }: any) {
         }
     }, [cmdHist])
 
+
     useEffect(() => {
         restoreCmdFromHistory(cmdHistCursor);
     }, [cmdHistCursor])
+
 
     useEffect(() => scroll(), [logs])
 
@@ -106,9 +104,14 @@ export function DeviceTerm({ logs }: any) {
     }
 
     function sendCmd() {
-        if (!cmd) return;
+        if (!wsClient || !cmd) {
+            return;
+        }
         const command = cmd.toUpperCase();
-        WSC.send({ cmd: 'serialSendData', data: command + '\n' });
+        wsClient.send({
+            cmd: 'serialSendData',
+            data: command + '\n'
+        });
         setCmd('');
         setCmdHistCursor(0);
         pushCmdHistory(command);
@@ -120,26 +123,16 @@ export function DeviceTerm({ logs }: any) {
     */
 
     function getLogs() {
-        WSC.send({ cmd: 'serialGetLog' });
+        wsClient?.send({ cmd: 'serialGetLog' });
     }
 
     function scroll() {
-        if (!preRef?.current) {
+        if (!endElRef.current) {
             return;
         }
-        const pre = d3.select(preRef.current);
 
-        pre.transition()
-            .duration(4e2)
-            .tween('uniquetweenname', scrollTopTween(pre.property('scrollHeight')))
-
-        function scrollTopTween(scrollTop: any) {
-            return function () {
-                const i = d3.interpolateNumber(this.scrollTop, scrollTop);
-                return function (t) { this.scrollTop = i(t); };
-            };
-        }
-
+        endElRef.current.scrollIntoView({ behavior: 'smooth' });
+        console.log('should scroll')
     }
 
 
@@ -148,27 +141,42 @@ export function DeviceTerm({ logs }: any) {
     */
 
     return (
-        <div className="device-term base-content-block">
-            <h2 className="base-content-block-title">Terminal</h2>
+        <div className="base-content-block">
+            <h2
+                className="text-xl mb-3 px-1"
+            >
+                Terminal
+            </h2>
 
-            <div className="device-term-log">
-                <pre ref={preRef}>{logs}</pre>
+            <div className={
+                'min-h-[256px] max-h-[320px] overflow-auto ' +
+                'bg-zinc-50 text-zinc-800 p-4'
+            }>
+                <pre>{logs}</pre>
+                <div ref={endElRef} />
             </div>
 
-            <div className="device-term-input">
+            <div className={
+                'flex flex-wrap items-stretch'
+            }>
                 <input
+                    className={
+                        'flex-1 !text-zinc-900 px-3 uppercase'
+                    }
                     type="text"
                     onKeyDown={e => onKey(e)}
                     onChange={e => setCmd(e.target.value)}
                     value={cmd}
                 />
                 <button
+                    className='bg-zinc-100 !text-zinc-600 active:opacity-90'
                     type="button"
                     onClick={sendCmd}
                 >
                     Send
                 </button>
                 <button
+                    className='bg-zinc-100 !text-zinc-600 active:opacity-90'
                     type="button"
                     onClick={getLogs}>
                     Refresh

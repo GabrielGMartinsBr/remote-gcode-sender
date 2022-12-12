@@ -3,16 +3,29 @@ import { filter } from 'rxjs';
 import { DeviceMngPage } from '@/components/device-mng/device-mng';
 import { DeviceSelectorPage } from '@/components/device-selector/device-selector';
 import { Transition } from '@headlessui/react';
-import { WSC } from '../wsc/wsc';
+import { useAppContext } from '@/AppContext';
 
 export default function ViewCtrl() {
     const [connected, setConnected] = useState(false);
-
+    const { wsClient } = useAppContext();
+    const ctx = useAppContext();
 
     useEffect(() => {
+        if (!wsClient) {
+            return;
+        }
+        wsClient.connect('ws://192.168.1.100:9010');
+        return () => {
+            wsClient.disconnect();
+        }
+    }, [])
+
+    useEffect(() => {
+        if (!wsClient) {
+            return;
+        }
         const cmdList = ['serialDeviceStatus'];
-        WSC.init();
-        const $ = WSC.events
+        const $ = wsClient.events
             .pipe(
                 filter(e => e && cmdList.indexOf(e.cmd) > -1)
             )

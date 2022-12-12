@@ -1,24 +1,38 @@
-import React, { useState } from 'react';
-import { WSC } from '../../wsc/wsc';
+import { useEffect, useState } from 'react';
 
-export function WorkbenchFiles({ files }) {
-    const [selected, setSelected] = useState(null);
+import { useAppContext } from '@/AppContext';
+
+interface WorkbenchFilesProps {
+    files: string[];
+}
+
+export function WorkbenchFiles(props: WorkbenchFilesProps) {
+    const { wsClient } = useAppContext();
+    const { files } = props;
+
+    const [selected, setSelected] = useState<string>();
+
+    useEffect(() => {
+        getFiles();
+    }, []);
 
     function getFiles() {
-        WSC.send({ cmd: 'serialGetFiles' });
+        if (wsClient) {
+            wsClient.send({ cmd: 'serialGetFiles' });
+        }
     }
 
-    function select(file) {
+    function select(file: string) {
         setSelected(file);
     }
 
     function printSelected() {
-        if (selected) {
-            WSC.send({ cmd: 'serialPrintWorkbenchFile', data: selected });
+        if (selected && wsClient) {
+            wsClient.send({ cmd: 'serialPrintWorkbenchFile', data: selected });
         }
     }
 
-    function fileItem(file, index) {
+    function fileItem(file: string, index: number) {
         return (
             <div className="file-item" key={index} onClick={() => select(file)}>
                 {file}
@@ -28,7 +42,9 @@ export function WorkbenchFiles({ files }) {
 
     return (
         <div className="workbench-files base-content-block">
-            <h2 className="base-content-block-title">Workbench Files</h2>
+            <h2 className="text-xl mb-3 px-1">
+                Workbench Files
+            </h2>
 
             <div className="selected-file">
                 <div className="file-info">{selected || 'nenhum selecionado'}</div>
@@ -39,9 +55,10 @@ export function WorkbenchFiles({ files }) {
             </div>
 
             <div className="files-list">
-                {files?.map((i, index) => fileItem(i, index))}
+                {files ? (
+                    files.map((i: any, index: number) => fileItem(i, index))
+                ) : null}
             </div>
-
         </div>
     )
 }

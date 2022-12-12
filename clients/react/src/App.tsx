@@ -1,13 +1,19 @@
-import { AppCtx } from './AppCtxProvider';
+import { useRef } from 'react';
+import { AppContext, AppContextValue } from '@/AppContext';
 import ViewCtrl from './view/ViewCtrl';
-import { WSC } from '@/wsc/wsc';
+import { WsClient } from './services/ws-client';
 
 function App() {
+  const wsClient = useRef(new WsClient());
+  const contextValue: AppContextValue = {
+    wsClient: wsClient.current
+  };
+
   return (
     <>
-      <AppCtx.Provider value={{ wsc: WSC }}>
+      <AppContext.Provider value={contextValue}>
         <ViewCtrl />
-      </AppCtx.Provider>
+      </AppContext.Provider>
     </>
   )
 }

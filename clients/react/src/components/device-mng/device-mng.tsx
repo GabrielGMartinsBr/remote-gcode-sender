@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
 import { useEffect, useRef, useState } from 'react';
 import { Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
@@ -12,18 +10,18 @@ import { DeviceTerm } from './device-term';
 import { WorkbenchFiles } from './workbench-files';
 
 import './device-mng.scss';
-import { WSC } from '../../wsc/wsc';
+import { useAppContext } from '@/AppContext';
 
 export function DeviceMngPage() {
+    const { wsClient } = useAppContext();
     const { current: destroySbj } = useRef(new Subject<void>());
-    // const { pushLog, logs } = useLogs();
     const [logs, setLogs] = useState('');
-    const [files, setFiles] = useState(null);
+    const [files, setFiles] = useState<string[]>([]);
 
     useEffect(() => onInit(), []);
 
     function onInit() {
-        console.log('Init DeviceMngPage');
+        console.log('DeviceMngPage mounted');
         listenWS();
 
         return onDestroy;
@@ -35,14 +33,21 @@ export function DeviceMngPage() {
     }
 
     function listenWS() {
-        const cmds = ['serialDeviceStatus', 'serialDataLogs', 'serialDataLog', 'serialDataFiles'];
-        WSC.events
+        if (!wsClient) {
+            return;
+        }
+        const cmdList = [
+            'serialDeviceStatus',
+            'serialDataLogs',
+            'serialDataLog',
+            'serialDataFiles'
+        ];
+        wsClient.events
             .pipe(
                 takeUntil(destroySbj),
-                filter(e => e && cmds.indexOf(e.cmd) > -1)
+                filter(e => e && cmdList.indexOf(e.cmd) > -1)
             )
             .subscribe(event => {
-                // console.log(event);
                 switch (event.cmd) {
                     case 'serialDataLogs':
                         return onLogs(event.data);
@@ -62,7 +67,7 @@ export function DeviceMngPage() {
         setLogs(prev => `${prev}${data}\n`);
     }
 
-    function onFiles(data: any) {
+    function onFiles(data: string[]) {
         setFiles(data);
     }
 
@@ -73,7 +78,6 @@ export function DeviceMngPage() {
                 <div className="base-content-block">
                     <h2>Device MNG!</h2>
                 </div>
-
                 <DeviceStatus />
                 <BasicControls />
                 <FileCtrl />

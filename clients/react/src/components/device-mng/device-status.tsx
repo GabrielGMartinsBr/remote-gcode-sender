@@ -1,10 +1,12 @@
-import React from 'react';
-import { WSC } from '../../wsc/wsc';
+import { useAppContext } from '@/AppContext';
 
 export function DeviceStatus() {
+    const { wsClient } = useAppContext();
 
     function disconnect() {
-        WSC.send({ cmd: 'serialDisconnect' });
+        if (wsClient) {
+            wsClient.send({ cmd: 'serialDisconnect' });
+        }
     }
 
     return (

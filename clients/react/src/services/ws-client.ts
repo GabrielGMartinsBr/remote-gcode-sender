@@ -11,6 +11,10 @@ export class WsClient {
     events = this.eventsSbj.asObservable();
     ready = this.readySbj.asObservable().pipe(take(1));
 
+    constructor() {
+        this.onOpen = this.onOpen.bind(this);
+    }
+
     get isConnected() {
         return this.wsc?.readyState === WebSocket.OPEN;
     }
@@ -19,18 +23,21 @@ export class WsClient {
         if (this.isConnected) {
             throw new Error('client is already connected');
         }
-        if (this.wsc) {
-            this.wsc.close();
-        }
         this.hostUrl = hostUrl;
         this.wsc = new WebSocket(hostUrl);
-        this.wsc.addEventListener('open', () => this.onOpen());
+        this.wsc.addEventListener('open', this.onOpen);
         this.wsc.addEventListener('message', e => this.onMessage(e));
     }
 
-    destroy() {
-        if (this.wsc) {
-            this.wsc.close();
+    disconnect() {
+        if (!this.wsc) {
+            return;
+        }
+        const wsc = this.wsc;
+        if (this.isConnected) {
+            wsc.close();
+        } else {
+            this.cancelConnection(wsc);
         }
     }
 
@@ -54,22 +61,27 @@ export class WsClient {
         console.log(`connected to ${this.hostUrl}`)
     }
 
+    private cancelConnection(wsc: WebSocket) {
+        wsc.removeEventListener('open', this.onOpen);
+        wsc.addEventListener('open', () => {
+            wsc.close();
+            console.log('connection canceled!')
+        });
+    }
+
     private onMessage(e: MessageEvent<any>) {
         try {
             const pack = JSON.parse(e.data);
-            if (!pack || !pack.cmd) {
+            if (!pack || typeof pack.cmd !== 'string') {
                 throw 'invalid object content';
             }
             this.handlePack(pack);
         } catch (ex) {
-            console.warn('failed to parse pack:', e.data);
+            console.warn(ex);
         }
     }
 
-    private handlePack(pack: any) {
-        if (pack?.cmd !== 'string') {
-            return;
-        }
+    private handlePack(pack: { cmd: string, data: any }) {
         if (pack.cmd === 'disconnect') {
             console.log('TODO: disconnect');
         }

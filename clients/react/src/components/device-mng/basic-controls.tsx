@@ -1,8 +1,12 @@
-import { WSC } from '../../wsc/wsc';
+import { useAppContext } from '@/AppContext';
 
 export function BasicControls() {
+    const { wsClient } = useAppContext();
 
     function sendCommand(key: string) {
+        if (!wsClient) {
+            return;
+        }
         const commands = {
             'homeAll': 'G28\n',
             'homeX': 'G28 X\n',
@@ -19,7 +23,7 @@ export function BasicControls() {
             return;
         }
 
-        WSC.send({ cmd: 'serialSendData', data: command });
+        wsClient.send({ cmd: 'serialSendData', data: command });
         console.log('command sent:', command);
     }
 
@@ -28,99 +32,273 @@ export function BasicControls() {
             <div className="directional-ctrls">
                 <div className="ctrls-line">
                     <div className="ctrl-cell">
-                        <button className="cm" onClick={() => sendCommand('')} type="button">10x◤</button>
+                        <button
+                            className="cm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            10x◤
+                        </button>
                     </div>
                     <div className="ctrl-cell">
-                        <button className="um" onClick={() => sendCommand('')} type="button">.1x◤</button>
+                        <button
+                            className="um"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            .1x◤
+                        </button>
                     </div>
                     <div className="ctrl-cell">
-                        <button className="cm" onClick={() => sendCommand('')} type="button">10x▲</button>
+                        <button
+                            className="cm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            10x▲
+                        </button>
                     </div>
                     <div className="ctrl-cell">
-                        <button className="um" onClick={() => sendCommand('')} type="button">.1x▲</button>
+                        <button
+                            className="um"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            .1x▲
+                        </button>
                     </div>
                     <div className="ctrl-cell">
-                        <button className="cm" onClick={() => sendCommand('')} type="button">10x◥</button>
-                    </div>
-                </div>
-                <div className="ctrls-line">
-                    <div className="ctrl-cell">
-                        <button className="um" onClick={() => sendCommand('')} type="button">.1x◀</button>
-                    </div>
-                    <div className="ctrl-cell">
-                        <button className="mm" onClick={() => sendCommand('')} type="button">◤</button>
-                    </div>
-                    <div className="ctrl-cell">
-                        <button className="mm" onClick={() => sendCommand('')} type="button">▲</button>
-                    </div>
-                    <div className="ctrl-cell">
-                        <button className="mm" onClick={() => sendCommand('')} type="button">◥</button>
-                    </div>
-                    <div className="ctrl-cell">
-                        <button className="um" onClick={() => sendCommand('')} type="button">.1x◥</button>
-                    </div>
-                </div>
-                <div className="ctrls-line">
-                    <div className="ctrl-cell">
-                        <button className="cm" onClick={() => sendCommand('')} type="button">10x◀</button>
-                    </div>
-                    <div className="ctrl-cell">
-                        <button className="mm" onClick={() => sendCommand('')} type="button">◀</button>
-                    </div>
-                    <div className="ctrl-cell">
-                        <button className="mm" onClick={() => sendCommand('')} type="button">◉</button>
-                    </div>
-                    <div className="ctrl-cell">
-                        <button className="mm" onClick={() => sendCommand('')} type="button">▶</button>
-                    </div>
-                    <div className="ctrl-cell">
-                        <button className="cm" onClick={() => sendCommand('')} type="button">10x▶</button>
+                        <button
+                            className="cm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            10x◥
+                        </button>
                     </div>
                 </div>
                 <div className="ctrls-line">
                     <div className="ctrl-cell">
-                        <button className="um" onClick={() => sendCommand('')} type="button">.1x◣</button>
+                        <button
+                            className="um"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            .1x◀
+                        </button>
                     </div>
                     <div className="ctrl-cell">
-                        <button className="mm" onClick={() => sendCommand('')} type="button">◣</button>
+                        <button
+                            className="mm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            ◤
+                        </button>
                     </div>
                     <div className="ctrl-cell">
-                        <button className="mm" onClick={() => sendCommand('')} type="button">▼</button>
+                        <button
+                            className="mm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            ▲
+                        </button>
                     </div>
                     <div className="ctrl-cell">
-                        <button className="mm" onClick={() => sendCommand('')} type="button">◢</button>
+                        <button
+                            className="mm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            ◥
+                        </button>
                     </div>
                     <div className="ctrl-cell">
-                        <button className="um" onClick={() => sendCommand('')} type="button">.1x▶</button>
+                        <button
+                            className="um"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            .1x◥
+                        </button>
                     </div>
                 </div>
                 <div className="ctrls-line">
                     <div className="ctrl-cell">
-                        <button className="cm" onClick={() => sendCommand('')} type="button">10x◣</button>
+                        <button
+                            className="cm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            10x◀
+                        </button>
                     </div>
                     <div className="ctrl-cell">
-                        <button className="um" onClick={() => sendCommand('')} type="button">.1x▼</button>
+                        <button
+                            className="mm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            ◀
+                        </button>
                     </div>
                     <div className="ctrl-cell">
-                        <button className="cm" onClick={() => sendCommand('')} type="button">10x▼</button>
+                        <button
+                            className="mm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            ◉
+                        </button>
                     </div>
                     <div className="ctrl-cell">
-                        <button className="um" onClick={() => sendCommand('')} type="button">.1x◢</button>
+                        <button
+                            className="mm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            ▶
+                        </button>
                     </div>
                     <div className="ctrl-cell">
-                        <button className="cm" onClick={() => sendCommand('')} type="button">10x◢</button>
+                        <button
+                            className="cm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            10x▶
+                        </button>
+                    </div>
+                </div>
+                <div className="ctrls-line">
+                    <div className="ctrl-cell">
+                        <button
+                            className="um"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            .1x◣
+                        </button>
+                    </div>
+                    <div className="ctrl-cell">
+                        <button
+                            className="mm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            ◣
+                        </button>
+                    </div>
+                    <div className="ctrl-cell">
+                        <button
+                            className="mm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            ▼
+                        </button>
+                    </div>
+                    <div className="ctrl-cell">
+                        <button
+                            className="mm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            ◢
+                        </button>
+                    </div>
+                    <div className="ctrl-cell">
+                        <button
+                            className="um"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            .1x▶
+                        </button>
+                    </div>
+                </div>
+                <div className="ctrls-line">
+                    <div className="ctrl-cell">
+                        <button
+                            className="cm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            10x◣
+                        </button>
+                    </div>
+                    <div className="ctrl-cell">
+                        <button
+                            className="um"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            .1x▼
+                        </button>
+                    </div>
+                    <div className="ctrl-cell">
+                        <button
+                            className="cm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            10x▼
+                        </button>
+                    </div>
+                    <div className="ctrl-cell">
+                        <button
+                            className="um"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            .1x◢
+                        </button>
+                    </div>
+                    <div className="ctrl-cell">
+                        <button
+                            className="cm"
+                            onClick={() => sendCommand('')}
+                            type="button"
+                        >
+                            10x◢
+                        </button>
                     </div>
                 </div>
             </div>
             <div className="home-ctrls">
-                <button type="button" onClick={() => sendCommand('homeAll')}>☗</button>
-                <button type="button" onClick={() => sendCommand('homeX')}>☗ X</button>
-                <button type="button" onClick={() => sendCommand('homeY')}>☗ Y</button>
-                <button type="button" onClick={() => sendCommand('homeZ')}>☗ Z</button>
+                <button
+                    type="button"
+                    onClick={() => sendCommand('homeAll')}
+                >
+                    ☗
+                </button>
+                <button
+                    type="button"
+                    onClick={() => sendCommand('homeX')}
+                >
+                    ☗ X
+                </button>
+                <button
+                    type="button"
+                    onClick={() => sendCommand('homeY')}
+                >
+                    ☗ Y
+                </button>
+                <button
+                    type="button"
+                    onClick={() => sendCommand('homeZ')}
+                >
+                    ☗ Z
+                </button>
             </div>
             <div className="utils-btns">
-                <button type="button" onClick={() => sendCommand('motorsOn')}>Motors On</button>
-                <button type="button" onClick={() => sendCommand('motorsOff')}>Motors Off</button>
+                <button type="button" onClick={() => sendCommand('motorsOn')}>
+                    Motors On
+                </button>
+                <button type="button" onClick={() => sendCommand('motorsOff')}>
+                    Motors Off
+                </button>
             </div>
         </div>
     )
