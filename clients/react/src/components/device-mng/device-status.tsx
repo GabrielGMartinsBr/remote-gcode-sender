@@ -4,7 +4,7 @@ import { WSC } from '../../wsc/wsc';
 export function DeviceStatus() {
 
     function disconnect() {
-        WSC.send({ cmd: 'serialDisconect' });
+        WSC.send({ cmd: 'serialDisconnect' });
     }
 
     return (

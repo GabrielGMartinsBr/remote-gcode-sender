@@ -28,7 +28,7 @@ export class Serial {
 
     static handle({ pack, sock } = {} as WSSEvent) {
         switch (pack.cmd) {
-            case 'serialDisconect':
+            case 'serialDisconnect':
                 this.device.disconnect();
                 this.sendDeviceStatus(sock);
                 break;

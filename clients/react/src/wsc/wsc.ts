@@ -45,8 +45,8 @@ export class WSC {
 
     private static handle(pack: { cmd: string, data: any }) {
         // console.log('receive', pack);
-        if (pack.cmd === 'disconect') {
-            console.log('TODO: disconect');
+        if (pack.cmd === 'disconnect') {
+            console.log('TODO: disconnect');
         }
         else {
             this.eventsSbj.next(pack);

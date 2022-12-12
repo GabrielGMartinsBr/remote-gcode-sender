@@ -24,9 +24,7 @@ export class WSS {
         })
 
         this.wss.addListener('connection', sock => {
-            sock.send(JSON.stringify({ cmd: 'test', data: 'any haha' }));
             console.log('has connection');
-
             sock.addEventListener('message', event => {
                 this.handleData(event.data, sock as any);
             })
@@ -46,8 +44,8 @@ export class WSS {
     }
 
     private static handle(pack: WSSPack, sock: WebSocket) {
-        if (pack.cmd === 'disconect') {
-            console.log('TODO: disconect');
+        if (pack.cmd === 'disconnect') {
+            console.log('TODO: disconnect');
         }
         else {
             this.eventsSbj.next({ pack, sock });
