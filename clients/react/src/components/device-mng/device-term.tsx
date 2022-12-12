@@ -127,12 +127,10 @@ export function DeviceTerm({ logs }: any) {
     }
 
     function scroll() {
-        if (!endElRef.current) {
+        if (!endElRef.current || !logs) {
             return;
         }
-
         endElRef.current.scrollIntoView({ behavior: 'smooth' });
-        console.log('should scroll')
     }
 
 
@@ -142,9 +140,7 @@ export function DeviceTerm({ logs }: any) {
 
     return (
         <div className="base-content-block">
-            <h2
-                className="text-xl mb-3 px-1"
-            >
+            <h2 className="text-xl mb-3 px-1">
                 Terminal
             </h2>
 

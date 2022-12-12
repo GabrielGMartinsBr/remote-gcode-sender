@@ -52,7 +52,9 @@ export function FileCtrl() {
 
     return (
         <div className="file-ctrl base-content-block">
-            <h2 className="base-content-block-title">Send File</h2>
+            <h2 className="text-xl mb-3 px-1">
+                Send File
+            </h2>
 
             <div className="file-controls">
                 <input ref={inputRef} type="file" multiple={false} accept=".gcode,.txt" onInput={onInputFile} />

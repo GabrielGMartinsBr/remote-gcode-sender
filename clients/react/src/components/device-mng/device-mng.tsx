@@ -75,8 +75,10 @@ export function DeviceMngPage() {
         <DeviceMngProvider>
             <div className="device-mng-page">
 
-                <div className="base-content-block">
-                    <h2>Device MNG!</h2>
+                <div className="base-content-block ">
+                    <h2 className='text-xl font-semibold'>
+                        Device Manager
+                    </h2>
                 </div>
                 <DeviceStatus />
                 <BasicControls />
