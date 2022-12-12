@@ -33,7 +33,11 @@ export function DeviceSelectorPage() {
 
         wsClient.ready
             .pipe(takeUntil(destroySbj))
-            .subscribe(() => refresh());
+            .subscribe(b => {
+                if (b) {
+                    refresh()
+                }
+            });
 
         return () => {
             destroySbj.next();

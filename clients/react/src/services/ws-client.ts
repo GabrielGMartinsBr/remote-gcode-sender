@@ -1,4 +1,4 @@
-import { ReplaySubject, Subject, take } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 import { WSSPack } from '@/types/wss-types';
 
 export class WsClient {
@@ -6,13 +6,14 @@ export class WsClient {
     private wsc?: WebSocket;
 
     private eventsSbj = new Subject<WSSPack>();
-    private readySbj = new ReplaySubject<void>();
+    private readySbj = new ReplaySubject<boolean>();
 
     events = this.eventsSbj.asObservable();
-    ready = this.readySbj.asObservable().pipe(take(1));
+    ready = this.readySbj.asObservable();
 
     constructor() {
         this.onOpen = this.onOpen.bind(this);
+        this.onClose = this.onClose.bind(this);
     }
 
     get isConnected() {
@@ -26,6 +27,7 @@ export class WsClient {
         this.hostUrl = hostUrl;
         this.wsc = new WebSocket(hostUrl);
         this.wsc.addEventListener('open', this.onOpen);
+        this.wsc.addEventListener('close', this.onClose);
         this.wsc.addEventListener('message', e => this.onMessage(e));
     }
 
@@ -43,7 +45,7 @@ export class WsClient {
 
     send({ cmd, data } = {} as { cmd: string, data?: any }) {
         if (!this.wsc || !this.isConnected) {
-            console.warn('client is not ready');
+            console.warn('client is not ready', cmd, data);
             return;
         }
         if (!cmd || typeof cmd !== 'string') {
@@ -56,13 +58,18 @@ export class WsClient {
 
     private onOpen() {
         this.send({ cmd: 'serialGetStatus' })
-        this.readySbj.next();
-        this.readySbj.complete();
+        this.readySbj.next(this.isConnected);
         console.log(`connected to ${this.hostUrl}`)
+    }
+
+    private onClose(e: CloseEvent) {
+        console.log(e.code);
+        this.readySbj.next(this.isConnected);
     }
 
     private cancelConnection(wsc: WebSocket) {
         wsc.removeEventListener('open', this.onOpen);
+        wsc.removeEventListener('close', this.onClose);
         wsc.addEventListener('open', () => {
             wsc.close();
             console.log('connection canceled!')

@@ -5,6 +5,7 @@ import { DeviceSelectorPage } from '@/components/device-selector/device-selector
 import { Transition } from '@headlessui/react';
 import { useAppContext } from '@/AppContext';
 import HostCtrl from '@/components/host-ctrl/HostCtrl';
+import ConnectionBar from '@/components/connection-bar/ConnectionBar';
 
 export default function ViewCtrl() {
     const [connected, setConnected] = useState(false);
@@ -26,8 +27,8 @@ export default function ViewCtrl() {
         if (!wsClient) {
             return;
         }
-        const $ = wsClient.ready.subscribe(() => {
-            setConnected(true);
+        const $ = wsClient.ready.subscribe((isConnected) => {
+            setConnected(isConnected);
         });
         return () => {
             $.unsubscribe();
@@ -92,6 +93,7 @@ export default function ViewCtrl() {
                 leaveFrom='opacity-100 translate-y-0'
                 leaveTo='opacity-0 -translate-y-full'
             >
+                <ConnectionBar />
                 <DeviceSelectorPage />
             </Transition>
 
@@ -105,6 +107,7 @@ export default function ViewCtrl() {
                 leaveFrom='opacity-100 translate-y-0'
                 leaveTo='opacity-0 translate-y-full'
             >
+                <ConnectionBar />
                 <DeviceMngPage />
             </Transition>
         </>
