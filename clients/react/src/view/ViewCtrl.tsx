@@ -7,14 +7,14 @@ import { useAppContext } from '@/AppContext';
 
 export default function ViewCtrl() {
     const [connected, setConnected] = useState(false);
-    const { wsClient } = useAppContext();
-    const ctx = useAppContext();
+    const { wsClient, host } = useAppContext();
 
     useEffect(() => {
-        if (!wsClient) {
+        if (!wsClient || !host) {
             return;
         }
-        wsClient.connect('ws://192.168.1.100:9010');
+        const hostUrl = `ws://${host.domain}:${host.wsPort}`
+        wsClient.connect(hostUrl);
         return () => {
             wsClient.disconnect();
         }
@@ -45,6 +45,7 @@ export default function ViewCtrl() {
 
     return (
         <>
+            {/* Device Selector */}
             <Transition
                 appear show={!connected} as='div'
                 enter='ease-out duration-300'
@@ -56,6 +57,8 @@ export default function ViewCtrl() {
             >
                 <DeviceSelectorPage />
             </Transition>
+
+            {/* Device Mng */}
             <Transition
                 appear show={connected} as='div'
                 enter='ease-out duration-300'

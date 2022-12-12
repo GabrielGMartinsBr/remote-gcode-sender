@@ -1,5 +1,6 @@
 import * as express from 'express';
-import * as moment from 'moment'
+import * as moment from 'moment';
+import * as cors from 'cors';
 
 import * as dotenv from 'dotenv';
 import { FileManager } from './file-manager';
@@ -32,8 +33,9 @@ class App {
         Serial.init();
 
         // Setup routes
+        this.server.use(cors());
         this.server.use('/params', paramsRouter);
-        this.server.use('/machine', machineRouter)
+        this.server.use('/machine', machineRouter);
 
         // Start listen
         this.server.listen(PORT, () => console.log(`Web Server has started on port ${PORT}`));

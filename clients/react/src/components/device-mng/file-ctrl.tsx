@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react';
 import axios from 'axios';
+import { useAppContext } from '@/AppContext';
 
 export function FileCtrl() {
     const inputRef = useRef<HTMLInputElement>(null);
     const [fileContent, setFileContent] = useState('');
+    const { host } = useAppContext();
 
     async function onInputFile() {
         if (!inputRef.current) return;
@@ -35,14 +37,17 @@ export function FileCtrl() {
     }
 
     async function uploadFile(file: any) {
+        if (!host) {
+            return;
+        }
+        const baseUrl = `http://${host.domain}:${host.httpPort}`;
+        const url = `${baseUrl}/machine/gcode`;
         const formData = new FormData();
         formData.append('gcode', file);
         const headers = { 'Content-Type': 'multipart/form-data' };
         try {
             const res = await axios.post(
-                'http://192.168.1.100:9000/machine/gcode',
-                formData,
-                { headers }
+                url, formData, { headers }
             )
             console.log(res);
         } catch (ex) {
@@ -51,18 +56,39 @@ export function FileCtrl() {
     }
 
     return (
-        <div className="file-ctrl base-content-block">
+        <div className="base-content-block">
             <h2 className="text-xl mb-3 px-1">
                 Send File
             </h2>
 
-            <div className="file-controls">
-                <input ref={inputRef} type="file" multiple={false} accept=".gcode,.txt" onInput={onInputFile} />
-                <button className="ml-auto" onClick={print}>Print</button>
+            <div className={
+                'bg-white/10 flex flex-wrap items-center p-4 mb-4'
+            }>
+                <input
+                    ref={inputRef}
+                    type="file"
+                    multiple={false}
+                    accept=".gcode,.txt"
+                    onInput={onInputFile}
+                />
+                <button
+                    className="ml-auto text-base font-semibold px-2.5 py-1"
+                    onClick={print}
+                >
+                    Print
+                </button>
             </div>
 
-            <div className="gcode-text-preview">
-                <textarea defaultValue={fileContent} readOnly onChange={e => setFileContent(e.target.value)}></textarea>
+            <div className="">
+                <textarea
+                    className={
+                        'bg-white/10 text-white w-full p-4 min-h-[300px] ' +
+                        'uppercase border-0'
+                    }
+                    defaultValue={fileContent}
+                    readOnly
+                    onChange={e => setFileContent(e.target.value)}
+                />
             </div>
         </div>
     )
