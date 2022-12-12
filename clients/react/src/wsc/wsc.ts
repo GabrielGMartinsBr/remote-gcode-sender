@@ -2,9 +2,8 @@ import { Subject, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { WSSPack } from '../types/wss-types';
 
-
 export class WSC {
-    private static started = false;
+    static started = false;
     private static wsc: WebSocket;
     private static eventsSbj = new Subject<WSSPack>();
     private static readySbj = new ReplaySubject<void>();
@@ -21,8 +20,6 @@ export class WSC {
         this.wsc = new WebSocket(`ws://${ip}:9010`);
 
         this.wsc.addEventListener('open', () => {
-            console.log('opened');
-            this.send({ cmd: 'test' })
             this.send({ cmd: 'serialGetStatus' })
             this.readySbj.next();
             this.readySbj.complete();

@@ -1,10 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps*/
-
 import { useState, useEffect, useRef } from 'react';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-
 import { WSC } from '../../wsc/wsc';
+
 import './device-selector.scss';
 
 export function DeviceSelectorPage() {
@@ -15,8 +13,11 @@ export function DeviceSelectorPage() {
     // Mount/Unmount
     useEffect(() => {
         listenWS();
-        WSC.ready.subscribe(() => refresh());
-        return () => destroy();
+        const $ = WSC.ready.subscribe(() => refresh());
+        return () => {
+            destroy();
+            $.unsubscribe();
+        }
     }, [pageRef]);
 
     // Destroy
@@ -25,7 +26,7 @@ export function DeviceSelectorPage() {
         destroySbj.complete();
     }
 
-    // Regresh devices
+    // Refresh devices
     function refresh() {
         WSC.send({ cmd: 'serialGetDevices' });
     }

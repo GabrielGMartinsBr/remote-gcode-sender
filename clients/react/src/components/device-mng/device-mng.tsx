@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 
-import { WSC } from '../../wsc/wsc';
 import { DeviceMngProvider } from './device-mng-context';
 import { DeviceStatus } from './device-status';
 import { BasicControls } from './basic-controls';
@@ -13,6 +12,7 @@ import { DeviceTerm } from './device-term';
 import { WorkbenchFiles } from './workbench-files';
 
 import './device-mng.scss';
+import { WSC } from '../../wsc/wsc';
 
 export function DeviceMngPage() {
     const { current: destroySbj } = useRef(new Subject<void>());
@@ -54,15 +54,15 @@ export function DeviceMngPage() {
             });
     }
 
-    function onLogs(data) {
+    function onLogs(data: string) {
         setLogs(data + '\n');
     }
 
-    function onLog(data) {
+    function onLog(data: string) {
         setLogs(prev => `${prev}${data}\n`);
     }
 
-    function onFiles(data) {
+    function onFiles(data: any) {
         setFiles(data);
     }
 
