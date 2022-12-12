@@ -48,7 +48,7 @@ export default function HostCtrl() {
             return;
         }
         save(params);
-        const hostUrl = `ws://${params.domain}:${params.wsPort}`
+        const hostUrl = `wss://${params.domain}:${params.wsPort}`
         wsClient.connect(hostUrl);
     }
 
