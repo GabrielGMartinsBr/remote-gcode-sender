@@ -34,11 +34,11 @@ export function DeviceTerm({ logs }: any) {
     useEffect(() => scroll(), [logs])
 
     /*
-        Lifecycles Fns
+        Life Cycles Fns
     */
 
     function onInit() {
-        loadCmdHitory();
+        loadCmdHistory();
     }
 
 
@@ -46,7 +46,7 @@ export function DeviceTerm({ logs }: any) {
         Send Commands
     */
 
-    function loadCmdHitory() {
+    function loadCmdHistory() {
         try {
             const str = localStorage.getItem('RemoteGcodeSender-cmdHistory');
             if (str) {
@@ -98,7 +98,7 @@ export function DeviceTerm({ logs }: any) {
             return;
         }
 
-        if (e && e.keyCode === 13) {
+        if (e && e.key === 'Enter') {
             sendCmd();
         }
     }
@@ -145,7 +145,7 @@ export function DeviceTerm({ logs }: any) {
             </h2>
 
             <div className={
-                'min-h-[256px] max-h-[320px] overflow-auto ' +
+                'h-[320px] overflow-auto ' +
                 'bg-zinc-50 text-zinc-800 p-4'
             }>
                 <pre>{logs}</pre>
