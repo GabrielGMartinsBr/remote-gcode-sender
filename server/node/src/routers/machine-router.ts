@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as multer from 'multer';
 import { Serial } from '../serial/serial';
+import * as cors from 'cors';
 
 const storage = multer.diskStorage({
     destination: './appData/workbench',
@@ -15,6 +16,8 @@ const upload = multer({
 });
 
 export const machineRouter = express.Router();
+
+machineRouter.use(cors({ origin: '*' }));
 
 machineRouter.post('/gcode', upload.single('gcode'), (req, res) => {
     if (req.file && req.file.filename && req.file.size) {
