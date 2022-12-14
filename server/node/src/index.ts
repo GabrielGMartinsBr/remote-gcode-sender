@@ -33,7 +33,7 @@ class App {
         Serial.init();
 
         // Setup routes
-        this.server.use(cors({ origin: '*' }));
+        this.server.use(cors({ preflightContinue: true }));
         this.server.use('/params', paramsRouter);
         this.server.use('/machine', machineRouter);
 
