@@ -87,10 +87,11 @@ export class PrintQueue {
     }
 
     private onFinish() {
-        const endTime = new Date();
-        const d = moment(this.startTime).from(moment(endTime));
-        const d2 = moment(this.startTime).diff(moment(endTime));
-        console.log('File finished!', this.startTime, endTime, d, d2);
+        const start = moment(this.startTime);
+        const end = moment();
+        const diff = end.diff(start);
+        let duration = moment.utc(diff).format("HH:mm:ss.SSS");
+        console.log('File finished!', duration);
     }
 
 }
