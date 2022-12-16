@@ -81,8 +81,7 @@ export class PrintQueue {
         }
 
         if (this.port.writable) {
-            this.port.write(line + '\n')
-            console.log('sending', line);
+            this.port.write(line + '\n');
         }
     }
 
