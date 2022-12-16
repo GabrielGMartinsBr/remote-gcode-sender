@@ -35,7 +35,7 @@ export class WSS {
         try {
             const pack = JSON.parse(data);
             if (!pack || !pack.cmd) {
-                throw 'invalid object content';
+                throw new Error('invalid object content');
             }
             this.handle(pack, sock);
         } catch (ex) {

@@ -80,7 +80,7 @@ export class WsClient {
         try {
             const pack = JSON.parse(e.data);
             if (!pack || typeof pack.cmd !== 'string') {
-                throw 'invalid object content';
+                throw new Error('invalid object content');
             }
             this.handlePack(pack);
         } catch (ex) {

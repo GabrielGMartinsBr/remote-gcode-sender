@@ -68,7 +68,7 @@ export class PrintQueue {
 
         if (typeof line !== 'string') {
             console.log(line);
-            throw 'invalid type of line';
+            throw new Error('invalid type of line');
         }
 
         // Remove comments and trim
