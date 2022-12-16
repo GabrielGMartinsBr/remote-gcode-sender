@@ -39,11 +39,11 @@ export class PrintQueue {
         this.complete = false;
         this.running = true;
         this.startTime = new Date();
+        this.onStart();
         this.next();
     }
 
     onSerialData(data: string) {
-        console.log('[PRINT SERIAL]:', data);
         if (/^ok/i.test(data.trim())) {
             if (this.running) {
                 this.index++;
@@ -86,12 +86,18 @@ export class PrintQueue {
         }
     }
 
+    private onStart() {
+        const start = moment(this.startTime);
+        console.log('Print starts on:', start.format("HH:mm:ss.SSS"));
+    }
+
     private onFinish() {
         const start = moment(this.startTime);
         const end = moment();
         const diff = end.diff(start);
-        let duration = moment.utc(diff).format("HH:mm:ss.SSS");
-        console.log('File finished!', duration);
+        let duration = moment.utc(diff);
+        console.log('Print ends on:', end.format("HH:mm:ss.SSS"));
+        console.log('Print finished in:', duration.format("HH:mm:ss.SSS"));
     }
 
 }
