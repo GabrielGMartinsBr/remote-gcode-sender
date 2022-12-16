@@ -1,4 +1,5 @@
 import { SerialPort, ReadlineParser } from 'serialport';
+import * as moment from 'moment';
 
 import { FileManager } from '../file-manager';
 
@@ -8,6 +9,8 @@ export class PrintQueue {
     complete: boolean;
     private content: string;
     private lines: string[];
+
+    private startTime: Date;
 
     constructor(private port: SerialPort, private parser: ReadlineParser) {
         this.onSerialData = this.onSerialData.bind(this);
@@ -59,6 +62,8 @@ export class PrintQueue {
         if (line === undefined) {
             this.running = false;
             this.complete = true;
+            this.onFinish();
+            return;
         }
 
         if (typeof line !== 'string') {
@@ -75,9 +80,15 @@ export class PrintQueue {
         }
 
         if (this.port.writable) {
-            this.port.write(line + '\n');
+            this.port.write(line + '\n')
             console.log('sending', line);
         }
+    }
+
+    private onFinish() {
+        const endTime = new Date();
+        const d = moment(this.startTime).from(moment(endTime));
+        console.log('File finished!', this.startTime, endTime, d);
     }
 
 }
