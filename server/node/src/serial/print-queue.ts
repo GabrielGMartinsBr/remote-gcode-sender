@@ -38,6 +38,7 @@ export class PrintQueue {
         this.index = 0;
         this.complete = false;
         this.running = true;
+        this.startTime = new Date();
         this.next();
     }
 
