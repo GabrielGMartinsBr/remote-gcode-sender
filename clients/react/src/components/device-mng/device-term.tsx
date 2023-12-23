@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, UIEvent } from 'react';
 import { useAppContext } from '@/AppContext';
 import { useRefSet3 } from '@/hooks/useRefSet3';
 
@@ -8,6 +8,7 @@ export function DeviceTerm({ logs }: any) {
     const { wsClient } = useAppContext();
     const refs = useRefSet3(class {
         logs: HTMLDivElement | null = null;
+        followLogs = false;
     });
 
     const [cmd, setCmd] = useState('')
@@ -128,11 +129,15 @@ export function DeviceTerm({ logs }: any) {
     }
 
     function scroll() {
-        if (!refs.logs || !logs) {
+        if (!refs.followLogs || !refs.logs || !logs) {
             return;
         }
         const { scrollHeight, clientHeight } = refs.logs;
         refs.logs.scrollTop = scrollHeight - clientHeight;
+    }
+
+    function toggleFollowScroll() {
+        refs.followLogs = !refs.followLogs;
     }
 
 
@@ -168,6 +173,13 @@ export function DeviceTerm({ logs }: any) {
                     onChange={e => setCmd(e.target.value)}
                     value={cmd}
                 />
+                <button
+                    className='bg-zinc-100 !text-zinc-600 active:opacity-90'
+                    type="button"
+                    onClick={toggleFollowScroll}
+                >
+                    Follow
+                </button>
                 <button
                     className='bg-zinc-100 !text-zinc-600 active:opacity-90'
                     type="button"
