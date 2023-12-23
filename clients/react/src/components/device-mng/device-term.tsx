@@ -1,18 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppContext } from '@/AppContext';
+import { useRefSet3 } from '@/hooks/useRefSet3';
 
 // import { useLogs } from './device-mng-context';
 
 export function DeviceTerm({ logs }: any) {
     const { wsClient } = useAppContext();
+    const refs = useRefSet3(class {
+        logs: HTMLDivElement | null = null;
+    });
 
     const [cmd, setCmd] = useState('')
     const [cmdHist, setCmdHist] = useState<string[]>([])
     const [cmdHistCursor, setCmdHistCursor] = useState(0)
     const [typingCmd, setTypingCmd] = useState('');
-    const endElRef = useRef<HTMLDivElement>(null);
     // const { logs } = useLogs();
 
     useEffect(() => onInit(), [])
@@ -127,10 +128,11 @@ export function DeviceTerm({ logs }: any) {
     }
 
     function scroll() {
-        if (!endElRef.current || !logs) {
+        if (!refs.logs || !logs) {
             return;
         }
-        endElRef.current.scrollIntoView({ behavior: 'smooth' });
+        const { scrollHeight, clientHeight } = refs.logs;
+        refs.logs.scrollTop = scrollHeight - clientHeight;
     }
 
 
@@ -144,12 +146,14 @@ export function DeviceTerm({ logs }: any) {
                 Terminal
             </h2>
 
-            <div className={
-                'h-[320px] overflow-auto ' +
-                'bg-zinc-50 text-zinc-800 p-4'
-            }>
+            <div
+                ref={refs.setter('logs')}
+                className={
+                    'h-[320px] overflow-auto ' +
+                    'bg-zinc-50 text-zinc-800 p-4'
+                }
+            >
                 <pre>{logs}</pre>
-                <div ref={endElRef} />
             </div>
 
             <div className={
