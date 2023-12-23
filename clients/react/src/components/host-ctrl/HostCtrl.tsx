@@ -14,6 +14,15 @@ export default function HostCtrl() {
         loadHost();
     }, [host]);
 
+    useEffect(() => {
+        const lastDomain = localStorage.getItem('rgs~lastDomain');
+        setDomain(lastDomain || 'localhost');
+    }, []);
+
+    function saveLastDomain() {
+        localStorage.setItem('rgs~lastDomain', domain);
+    }
+
     function loadHost() {
         if (host) {
             setName(host.name);
@@ -50,6 +59,7 @@ export default function HostCtrl() {
         save(params);
         const hostUrl = `ws://${params.domain}:${params.wsPort}`
         wsClient.connect(hostUrl);
+        saveLastDomain();
     }
 
     return (
