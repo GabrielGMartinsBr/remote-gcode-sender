@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import { getIp } from "../ip-resolve";
 
 export const paramsRouter = express.Router();

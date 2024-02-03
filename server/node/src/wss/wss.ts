@@ -1,4 +1,4 @@
-import * as WebSocket from 'ws';
+import WebSocket from 'ws';
 import { Subject } from 'rxjs';
 
 const WSS_PORT = 9010;
@@ -26,7 +26,7 @@ export class WSS {
         this.wss.addListener('connection', sock => {
             console.log('has connection');
             sock.addEventListener('message', event => {
-                this.handleData(event.data, sock as any);
+                this.handleData(event.data.toString(), sock as any);
             })
         })
     }

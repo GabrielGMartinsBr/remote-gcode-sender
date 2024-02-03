@@ -1,5 +1,5 @@
 import { SerialPort, ReadlineParser, } from 'serialport';
-import * as moment from 'moment';
+import moment from 'moment';
 import { PrintQueue } from './print-queue';
 import { WSS, WSSPack } from '../wss/wss';
 
