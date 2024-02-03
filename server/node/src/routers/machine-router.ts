@@ -1,7 +1,7 @@
-import * as express from 'express';
-import * as multer from 'multer';
+import express from 'express';
+import multer from 'multer';
 import { Serial } from '../serial/serial';
-import * as cors from 'cors';
+import cors from 'cors';
 
 const storage = multer.diskStorage({
     destination: './appData/workbench',

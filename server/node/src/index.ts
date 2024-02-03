@@ -1,8 +1,8 @@
-import * as express from 'express';
-import * as moment from 'moment';
-import * as cors from 'cors';
+import express from 'express';
+import moment from 'moment';
+import cors from 'cors';
 
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 import { FileManager } from './file-manager';
 import { WSS } from './wss/wss';
 import { Serial } from './serial/serial';
