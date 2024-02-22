@@ -8,10 +8,14 @@ export function useFileManagerContextValue() {
         container: HTMLDivElement | null = null;
     });
     const handlersEmitter = useRxEmitter<FmEventHandlers>({});
+    const storeEmitter = useRxEmitter({
+        v: 0
+    });
 
     return {
         elements,
-        handlersEmitter
+        handlersEmitter,
+        storeEmitter,
     };
 }
 

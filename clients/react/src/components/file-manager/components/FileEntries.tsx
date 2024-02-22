@@ -1,3 +1,5 @@
+import { useRxSubscription } from '@/modules/RxEvents';
+import { useFileManagerContext } from '../context/useFileManagerContext';
 import { GCodeFileEntry } from '../types';
 import FileEntry from './FileEntry';
 
@@ -7,6 +9,10 @@ interface Props {
 
 export default function FileEntries(props: Props) {
     const { items } = props;
+    const { storeEmitter } = useFileManagerContext();
+    const store = useRxSubscription(storeEmitter, { reRenderOnChange: true });
+
+    console.log('[FileEntries render]');
 
     return (
         <div className={`@tw{
@@ -15,6 +21,11 @@ export default function FileEntries(props: Props) {
             gap-4
             
         }`}>
+            <div className={`@tw{
+                bg-red-300 p-9
+            }`}>
+                {store.value.v}
+            </div>
             {items.map((item) => (
                 <FileEntry
                     key={item.uid}
