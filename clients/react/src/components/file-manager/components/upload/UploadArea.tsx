@@ -1,10 +1,14 @@
 import { FaCloudUploadAlt } from 'react-icons/fa';
+import { useFileManagerContext } from '../../context/useFileManagerContext';
+import { useRxSubscription } from '@/modules/RxEvents';
 
-interface Props {
-}
+interface Props { }
 
-export default function UploadArea(props: Props) {
-    const { } = props;
+export default function UploadArea(_props: Props) {
+    const { handlersEmitter } = useFileManagerContext();
+    const handlers = useRxSubscription(handlersEmitter, { reRenderOnChange: true });
+
+    console.log('[UploadArea render]');
 
     return (
         <div className={`@tw{
@@ -54,6 +58,7 @@ export default function UploadArea(props: Props) {
                         font-normal
                         text-sm
                     }`}
+                    onClick={handlers.value.onUploadClick}
                 >
                     Browser Files
                 </button>

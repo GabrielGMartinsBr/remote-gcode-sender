@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { useRefSet3 } from '@/hooks/useRefSet3';
 import { useRxEmitter } from '../../../modules/RxEvents/useRxEmitter';
-import { FmEventHandlers } from '../FmEventHandlers';
+import { FmEventHandlers } from './FmEventHandlers';
 
 export function useFileManagerContextValue() {
     const elements = useRefSet3(class {

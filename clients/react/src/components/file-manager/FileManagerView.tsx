@@ -9,6 +9,9 @@ interface Props {
 export default function FileManagerView(props: Props) {
     const { items } = props;
 
+    console.log('[FileManagerView render]');
+    
+
     return (
         <div className={`@tw{
             w-full h-full

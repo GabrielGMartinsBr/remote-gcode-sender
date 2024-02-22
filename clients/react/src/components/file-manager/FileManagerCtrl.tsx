@@ -1,12 +1,17 @@
 import { PropsWithChildren } from 'react';
-import FileManagerView from './FileManagerView';
-import { mockFiles } from './mockFiles';
+import { useFileManagerContext } from './context/useFileManagerContext';
 
-interface Props {
-}
-
-export default function FileManagerCtrl(props: PropsWithChildren<Props>) {
+export default function FileManagerCtrl(props: PropsWithChildren) {
     const { children } = props;
+    const { handlersEmitter } = useFileManagerContext();
+
+    console.log('[ctrl render]');
+
+    handlersEmitter.update(d => { 
+        d.onUploadClick = () => { 
+            console.log('upload clicked!');
+        };
+    });
 
     return (
         <>
