@@ -3,6 +3,7 @@ import { AppContext, AppContextValue } from '@/AppContext';
 import ViewCtrl from './view/ViewCtrl';
 import { WsClient } from './services/ws-client';
 import { ServerHost } from './types/server-host';
+import FileManager from './components/file-manager/FileManager';
 
 function App() {
   const wsClient = useRef(new WsClient());
@@ -23,6 +24,7 @@ function App() {
     <>
       <AppContext.Provider value={contextValue}>
         <ViewCtrl />
+        {/* <FileManager /> */}
       </AppContext.Provider>
     </>
   )
