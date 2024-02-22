@@ -23,8 +23,8 @@ function App() {
   return (
     <>
       <AppContext.Provider value={contextValue}>
-        <ViewCtrl />
-        {/* <FileManager /> */}
+        {/* <ViewCtrl /> */}
+        <FileManager />
       </AppContext.Provider>
     </>
   )

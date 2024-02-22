@@ -1,7 +1,6 @@
+import { GCodeFileEntry } from './types';
 import FileEntries from './components/FileEntries';
 import FileUpload from './components/upload/FileUpload';
-import UploadArea from './components/upload/UploadArea';
-import { GCodeFileEntry } from './types';
 
 interface Props {
     items: GCodeFileEntry[];

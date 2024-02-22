@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import useRefObject from '@common/hooks/useRefObject';
+import useRefObject from '@/hooks/useRefObject';
 import { RxEmitter } from './RxEmitter';
 
 interface Options {
