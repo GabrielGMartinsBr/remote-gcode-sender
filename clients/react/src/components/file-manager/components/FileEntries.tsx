@@ -1,5 +1,7 @@
+import { useDeviceMngContext } from '@/components/device-mng/context/useDeviceMngContext';
 import { GCodeFileEntry } from '../types';
 import FileEntry from './FileEntry';
+import { useRxSubscription } from '@/modules/RxEvents';
 
 interface Props {
     items: GCodeFileEntry[];
@@ -7,10 +9,9 @@ interface Props {
 
 export default function FileEntries(props: Props) {
     const { items } = props;
-    // const { storeEmitter } = useFileManagerContext();
+    // const { storeEmitter } = useDeviceMngContext();
     // const store = useRxSubscription(storeEmitter, { reRenderOnChange: true });
-
-    console.log('[FileEntries render]');
+    // const { files } = store.value;
 
     return (
         <div className={`@tw{

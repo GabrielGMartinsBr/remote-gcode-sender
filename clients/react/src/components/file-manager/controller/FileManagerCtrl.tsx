@@ -13,8 +13,6 @@ export default function FileManagerCtrl(props: PropsWithChildren) {
     const { handlersEmitter, storeEmitter } = useFileManagerContext();
     const fileBrowser = useInstanceOf(FileBrowser);
 
-    console.log('[ctrl render]');
-
     handlersEmitter.update(d => {
         d.onClickBrowser = () => {
             browserFilesToUpload();

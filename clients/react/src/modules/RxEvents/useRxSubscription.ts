@@ -15,7 +15,6 @@ export function useRxSubscription<T>(emitter: RxEmitter<T>, opts: Options = {}) 
 
     useEffect(() => {
         const $ = emitter.observable.subscribe(value => {
-            console.log('subs', value, value === ref.value);
             if (value === ref.value) {
                 return;
             }

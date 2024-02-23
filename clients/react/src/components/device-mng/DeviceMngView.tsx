@@ -20,8 +20,8 @@ export default function DeviceMngView() {
             <DeviceStatus />
             <BasicControls />
             <FileManager />
-            <FileCtrl />
             <DeviceTerm />
+            <FileCtrl />
             <WorkbenchFiles />
         </div>
     );

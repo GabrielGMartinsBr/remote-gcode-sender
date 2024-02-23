@@ -8,8 +8,6 @@ export default function UploadArea(_props: Props) {
     const { handlersEmitter } = useFileManagerContext();
     const handlers = useRxSubscription(handlersEmitter, { reRenderOnChange: true });
 
-    console.log('[UploadArea render]');
-
     return (
         <div className={`@tw{
             w-full max-w-sm
