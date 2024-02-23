@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 
 import { useAppContext } from '@/AppContext';
+import { useRxSubscription } from '@/modules/RxEvents';
+import { useDeviceMngContext } from './context/useDeviceMngContext';
 
-interface WorkbenchFilesProps {
-    files: string[];
-}
 
-export function WorkbenchFiles(props: WorkbenchFilesProps) {
+export function WorkbenchFiles() {
     const { wsClient } = useAppContext();
-    const { files } = props;
+    const { storeEmitter } = useDeviceMngContext();
+    const store = useRxSubscription(storeEmitter, { reRenderOnChange: true });
+    const { files } = store.value;
 
     const [selected, setSelected] = useState<string>();
 
@@ -56,7 +57,7 @@ export function WorkbenchFiles(props: WorkbenchFilesProps) {
 
             <div className="files-list">
                 {files ? (
-                    files.map((i: any, index: number) => fileItem(i, index))
+                    files.entries.map((i: any, index: number) => fileItem(i, index))
                 ) : null}
             </div>
         </div>

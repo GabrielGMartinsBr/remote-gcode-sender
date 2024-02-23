@@ -7,15 +7,19 @@ export function useDeviceMngContextValue() {
         container: HTMLDivElement | null = null;
     });
     const storeEmitter = useRxEmitter({
-        logs: {
-            entries: [] as string[],
-            str: ''
+        files: {
+            entries: [] as string[]
         }
+    });
+    const logsEmitter = useRxEmitter({
+        entries: [] as string[],
+        str: ''
     });
 
     return {
         elements,
         storeEmitter,
+        logsEmitter
     };
 }
 

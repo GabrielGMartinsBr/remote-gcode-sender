@@ -6,7 +6,7 @@ import { useDeviceMngContext } from './context/useDeviceMngContext';
 
 export function DeviceTerm() {
     const { wsClient } = useAppContext();
-    const { storeEmitter } = useDeviceMngContext();
+    const { logsEmitter } = useDeviceMngContext();
     const refs = useRefSet3(class {
         logs: HTMLDivElement | null = null;
         followLogs = true;
@@ -35,11 +35,11 @@ export function DeviceTerm() {
     }, [cmdHistCursor])
 
     useEffect(() => {
-        const $ = storeEmitter.observable.subscribe((value) => {
+        const $ = logsEmitter.observable.subscribe((value) => {
             if (!refs.logs) {
                 return;
             }
-            refs.logs.textContent = value.logs.str;
+            refs.logs.textContent = value.str;
             requestAnimationFrame(() => {
                 scroll();
             });
