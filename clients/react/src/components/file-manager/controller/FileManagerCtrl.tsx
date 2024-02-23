@@ -5,6 +5,7 @@ import { useAppContext } from '@/AppContext';
 import useInstanceOf from '@/hooks/useInstanceOf';
 import { useFileManagerContext } from '../context/useFileManagerContext';
 import { FileBrowser } from './services/FileBrowser';
+import { toast } from 'react-toastify';
 
 export default function FileManagerCtrl(props: PropsWithChildren) {
     const { children } = props;
@@ -63,11 +64,13 @@ export default function FileManagerCtrl(props: PropsWithChildren) {
                 d.uploadList.uploadResult = 'success';
                 d.uploadList.uploading = false;
             });
+            toast('File upload finish.', { type: 'success' });
         } catch (ex) {
             storeEmitter.update(d => {
                 d.uploadList.uploadResult = 'fail';
                 d.uploadList.uploading = false;
             });
+            toast('File upload failed.', { type: 'error' });
         }
     }
 

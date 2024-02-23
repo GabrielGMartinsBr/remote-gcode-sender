@@ -1,4 +1,6 @@
 import { useRef, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+
 import { AppContext, AppContextValue } from '@/AppContext';
 import ViewCtrl from './view/ViewCtrl';
 import { WsClient } from './services/ws-client';
@@ -23,9 +25,9 @@ function App() {
   return (
     <>
       <AppContext.Provider value={contextValue}>
-        {/* <ViewCtrl /> */}
-        <FileManager />
+        <ViewCtrl />
       </AppContext.Provider>
+      <ToastContainer />
     </>
   )
 }

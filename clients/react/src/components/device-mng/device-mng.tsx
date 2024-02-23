@@ -11,6 +11,7 @@ import { WorkbenchFiles } from './workbench-files';
 
 import './device-mng.scss';
 import { useAppContext } from '@/AppContext';
+import FileManager from '../file-manager/FileManager';
 
 export function DeviceMngPage() {
     const { wsClient } = useAppContext();
@@ -85,7 +86,9 @@ export function DeviceMngPage() {
                 <FileCtrl />
                 <DeviceTerm logs={logs} />
                 <WorkbenchFiles files={files} />
+                <FileManager />
             </div>
+
         </DeviceMngProvider>
     )
 }
