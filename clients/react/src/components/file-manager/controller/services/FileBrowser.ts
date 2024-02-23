@@ -1,6 +1,6 @@
 import { Subject, firstValueFrom } from 'rxjs';
 
-export class FileUploader {
+export class FileBrowser {
 
     constructor() {
         this.input = this.createInputElement();

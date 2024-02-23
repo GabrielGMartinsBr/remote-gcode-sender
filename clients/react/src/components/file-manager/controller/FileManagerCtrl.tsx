@@ -1,13 +1,13 @@
 import { PropsWithChildren } from 'react';
 import useInstanceOf from '@/hooks/useInstanceOf';
 import { useFileManagerContext } from '../context/useFileManagerContext';
-import { FileUploader } from './FileUploader';
+import { FileBrowser } from './services/FileBrowser';
 import { FileContentReader } from './services/FileContentReader';
 
 export default function FileManagerCtrl(props: PropsWithChildren) {
     const { children } = props;
     const { handlersEmitter, storeEmitter } = useFileManagerContext();
-    const fileUploader = useInstanceOf(FileUploader);
+    const fileBrowser = useInstanceOf(FileBrowser);
 
     console.log('[ctrl render]');
 
@@ -29,7 +29,7 @@ export default function FileManagerCtrl(props: PropsWithChildren) {
 
 
     async function browserFilesToUpload() {
-        const files = await fileUploader.browserFiles();
+        const files = await fileBrowser.browserFiles();
 
         if (!files) {
             return;
@@ -51,7 +51,7 @@ export default function FileManagerCtrl(props: PropsWithChildren) {
             }));
         });
 
-        fileUploader.clear();
+        fileBrowser.clear();
     }
 
     return (
