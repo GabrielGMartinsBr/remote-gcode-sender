@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 
 import { DeviceMngProvider } from './device-mng-context';
+import NewDeviceMngProvider from './context/DeviceMngProvider';
 import { DeviceStatus } from './device-status';
 import { BasicControls } from './basic-controls';
 import { FileCtrl } from './file-ctrl';
@@ -73,22 +74,24 @@ export function DeviceMngPage() {
     }
 
     return (
-        <DeviceMngProvider>
-            <div className="device-mng-page">
+        <NewDeviceMngProvider>
+            <DeviceMngProvider>
+                <div className="device-mng-page">
 
-                <div className="base-content-block ">
-                    <h2 className='text-xl font-semibold'>
-                        Device Manager
-                    </h2>
+                    <div className="base-content-block ">
+                        <h2 className='text-xl font-semibold'>
+                            Device Manager
+                        </h2>
+                    </div>
+                    <DeviceStatus />
+                    <BasicControls />
+                    <FileManager />
+                    <FileCtrl />
+                    <DeviceTerm logs={logs} />
+                    <WorkbenchFiles files={files} />
                 </div>
-                <DeviceStatus />
-                <BasicControls />
-                <FileManager />
-                <FileCtrl />
-                <DeviceTerm logs={logs} />
-                <WorkbenchFiles files={files} />
-            </div>
 
-        </DeviceMngProvider>
+            </DeviceMngProvider>
+        </NewDeviceMngProvider>
     )
 }

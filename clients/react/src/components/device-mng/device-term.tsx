@@ -8,7 +8,7 @@ export function DeviceTerm({ logs }: any) {
     const { wsClient } = useAppContext();
     const refs = useRefSet3(class {
         logs: HTMLDivElement | null = null;
-        followLogs = false;
+        followLogs = true;
     });
 
     const [cmd, setCmd] = useState('')
@@ -17,7 +17,9 @@ export function DeviceTerm({ logs }: any) {
     const [typingCmd, setTypingCmd] = useState('');
     // const { logs } = useLogs();
 
-    useEffect(() => onInit(), [])
+    useEffect(() => {
+        loadCmdHistory();
+    }, [])
 
     // Save Command History
     useEffect(() => {
@@ -34,14 +36,6 @@ export function DeviceTerm({ logs }: any) {
 
 
     useEffect(() => scroll(), [logs])
-
-    /*
-        Life Cycles Fns
-    */
-
-    function onInit() {
-        loadCmdHistory();
-    }
 
 
     /*
