@@ -58,7 +58,7 @@ export default function UploadArea(_props: Props) {
                         font-normal
                         text-sm
                     }`}
-                    onClick={handlers.value.onUploadClick}
+                    onClick={handlers.value.onClickBrowser}
                 >
                     Browser Files
                 </button>

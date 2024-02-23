@@ -25,7 +25,7 @@ export default function UploadList(_props: Props) {
     const store = useRxSubscription(storeEmitter, { reRenderOnChange: true });
     const handlers = useRxSubscription(handlersEmitter, { reRenderOnChange: true });
     const { uploadList } = store.value;
-    const { onClickEntryLog } = handlers.value;
+    const { onClickUploadListEntryPrint } = handlers.value;
 
     return (
         <table
@@ -61,15 +61,12 @@ export default function UploadList(_props: Props) {
                                 gap-2
                             }`}>
                                 <button
+                                    disabled={uploadList.uploading}
                                     className={buttonStyle}
+                                    onClick={onClickUploadListEntryPrint ? (() => onClickUploadListEntryPrint(i)) : undefined}
                                 >
-                                    Upload
-                                </button>
-                                <button
-                                    className={buttonStyle}
-                                    onClick={onClickEntryLog ? (() => onClickEntryLog(i)) : undefined}
-                                >
-                                    Log
+                                    {/* Upload */}
+                                    Print
                                 </button>
                             </div>
                         </td>

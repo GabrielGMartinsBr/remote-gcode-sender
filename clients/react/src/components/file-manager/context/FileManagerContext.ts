@@ -11,7 +11,9 @@ export function useFileManagerContextValue() {
     const handlersEmitter = useRxEmitter<FmEventHandlers>({});
     const storeEmitter = useRxEmitter({
         uploadList: {
-            entries: [] as FileUploadEntry[]
+            entries: [] as FileUploadEntry[],
+            uploading: false,
+            uploadResult: null as 'success' | 'fail' | null,
         }
     });
 

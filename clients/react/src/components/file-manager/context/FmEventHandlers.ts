@@ -1,7 +1,7 @@
 import { FileUploadEntry } from '../types';
 
 export type FmEventHandlers = {
-    onUploadClick?: () => void;
+    onClickBrowser?: () => void;
 
-    onClickEntryLog?: (entry: FileUploadEntry) => void;
+    onClickUploadListEntryPrint?: (entry: FileUploadEntry) => void;
 };
