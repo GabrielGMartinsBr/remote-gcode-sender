@@ -4,3 +4,11 @@ export interface GCodeFileEntry {
     uploadDate: Date;
     lastPrintDate: Date;
 }
+
+export interface FileUploadEntry {
+    lastModified: number;
+    name: string;
+    size: number;
+    type: string;
+    content: string;
+}

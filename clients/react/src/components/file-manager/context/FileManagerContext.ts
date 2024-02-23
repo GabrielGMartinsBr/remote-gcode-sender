@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import { useRefSet3 } from '@/hooks/useRefSet3';
 import { useRxEmitter } from '../../../modules/RxEvents/useRxEmitter';
 import { FmEventHandlers } from './FmEventHandlers';
+import { FileUploadEntry } from '../types';
 
 export function useFileManagerContextValue() {
     const elements = useRefSet3(class {
@@ -9,7 +10,9 @@ export function useFileManagerContextValue() {
     });
     const handlersEmitter = useRxEmitter<FmEventHandlers>({});
     const storeEmitter = useRxEmitter({
-        v: 0
+        uploadList: {
+            entries: [] as FileUploadEntry[]
+        }
     });
 
     return {

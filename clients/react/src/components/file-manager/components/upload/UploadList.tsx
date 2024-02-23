@@ -1,11 +1,7 @@
-interface Props {
-}
+import { useRxSubscription } from '@/modules/RxEvents';
+import { useFileManagerContext } from '../../context/useFileManagerContext';
 
-const items = [
-    { name: 'file-1', size: 9568 },
-    { name: 'file-2', size: 9568 },
-    { name: 'file-3', size: 9568 },
-]
+interface Props { }
 
 const buttonStyle = `@tw{
     px-4 py-2
@@ -20,8 +16,10 @@ const buttonStyle = `@tw{
     transition-[opacity_background]
 }`;
 
-export default function UploadList(props: Props) {
-    const { } = props;
+export default function UploadList(_props: Props) {
+    const { storeEmitter } = useFileManagerContext();
+    const store = useRxSubscription(storeEmitter, { reRenderOnChange: true });
+    const { uploadList } = store.value;
 
     return (
         <div
@@ -34,7 +32,7 @@ export default function UploadList(props: Props) {
                 gap-2
             }`}
         >
-            {items.map(i => (
+            {uploadList.entries.map(i => (
                 <div
                     key={i.name}
                     className={`@tw{

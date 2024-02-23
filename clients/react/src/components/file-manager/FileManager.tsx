@@ -1,6 +1,6 @@
-import FileManagerCtrl from './FileManagerCtrl';
-import FileManagerView from './FileManagerView';
 import FileManagerProvider from './context/FileManagerProvider';
+import FileManagerCtrl from './controller';
+import FileManagerView from './FileManagerView';
 import { mockFiles } from './mockFiles';
 
 interface Props {
