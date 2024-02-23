@@ -14,6 +14,11 @@ export class FileUploader {
         return firstValueFrom(this.files$);
     }
 
+    clear() {
+        console.log('clear', this.input.value);
+        this.input.value = '';
+    }
+
 
     // Private
 

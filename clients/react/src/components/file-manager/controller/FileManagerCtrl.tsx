@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import useInstanceOf from '@/hooks/useInstanceOf';
 import { useFileManagerContext } from '../context/useFileManagerContext';
 import { FileUploader } from './FileUploader';
+import { FileContentReader } from './services/FileContentReader';
 
 export default function FileManagerCtrl(props: PropsWithChildren) {
     const { children } = props;
@@ -19,8 +20,10 @@ export default function FileManagerCtrl(props: PropsWithChildren) {
             browserFilesToUpload();
         };
 
-        d.onClickEntryLog = entry => {
-            console.log(entry.name)
+        d.onClickEntryLog = async entry => {
+            console.log('Log:', entry.file);
+            const content = await FileContentReader.readContent(entry.file);
+            console.log(content);
         }
     });
 
@@ -44,10 +47,11 @@ export default function FileManagerCtrl(props: PropsWithChildren) {
                 type: i.type,
                 lastModified: i.lastModified,
                 content: '',
+                file: i
             }));
         });
-        
-        console.log('update list');
+
+        fileUploader.clear();
     }
 
     return (

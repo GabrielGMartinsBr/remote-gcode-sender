@@ -11,4 +11,5 @@ export interface FileUploadEntry {
     size: number;
     type: string;
     content: string;
+    file: File;
 }
