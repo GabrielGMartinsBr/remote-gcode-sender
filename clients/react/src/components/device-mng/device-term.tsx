@@ -1,11 +1,12 @@
-import React, { useState, useEffect, UIEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppContext } from '@/AppContext';
 import { useRefSet3 } from '@/hooks/useRefSet3';
+import { useDeviceMngContext } from './context/useDeviceMngContext';
 
-// import { useLogs } from './device-mng-context';
 
-export function DeviceTerm({ logs }: any) {
+export function DeviceTerm() {
     const { wsClient } = useAppContext();
+    const { storeEmitter } = useDeviceMngContext();
     const refs = useRefSet3(class {
         logs: HTMLDivElement | null = null;
         followLogs = true;
@@ -15,7 +16,6 @@ export function DeviceTerm({ logs }: any) {
     const [cmdHist, setCmdHist] = useState<string[]>([])
     const [cmdHistCursor, setCmdHistCursor] = useState(0)
     const [typingCmd, setTypingCmd] = useState('');
-    // const { logs } = useLogs();
 
     useEffect(() => {
         loadCmdHistory();
@@ -34,8 +34,18 @@ export function DeviceTerm({ logs }: any) {
         restoreCmdFromHistory(cmdHistCursor);
     }, [cmdHistCursor])
 
-
-    useEffect(() => scroll(), [logs])
+    useEffect(() => {
+        const $ = storeEmitter.observable.subscribe((value) => {
+            if (!refs.logs) {
+                return;
+            }
+            refs.logs.textContent = value.logs.str;
+            requestAnimationFrame(() => {
+                scroll();
+            });
+        });
+        return () => $.unsubscribe();
+    }, []);
 
 
     /*
@@ -123,7 +133,7 @@ export function DeviceTerm({ logs }: any) {
     }
 
     function scroll() {
-        if (!refs.followLogs || !refs.logs || !logs) {
+        if (!refs.followLogs || !refs.logs) {
             return;
         }
         const { scrollHeight, clientHeight } = refs.logs;
@@ -133,7 +143,6 @@ export function DeviceTerm({ logs }: any) {
     function toggleFollowScroll() {
         refs.followLogs = !refs.followLogs;
     }
-
 
     /*
         Renders
@@ -147,13 +156,15 @@ export function DeviceTerm({ logs }: any) {
 
             <div
                 ref={refs.setter('logs')}
-                className={
-                    'h-[320px] overflow-auto ' +
-                    'bg-zinc-50 text-zinc-800 p-4'
-                }
-            >
-                <pre>{logs}</pre>
-            </div>
+                className={`@tw{
+                    h-[320px] overflow-auto 
+                    bg-zinc-50 text-zinc-800 p-4
+                    whitespace-pre-wrap
+                    font-medium
+                    text-base leading-5
+                    tracking-wide
+                }`}
+            />
 
             <div className={
                 'flex flex-wrap items-stretch'

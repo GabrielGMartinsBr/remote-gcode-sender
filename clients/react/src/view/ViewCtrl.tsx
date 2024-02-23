@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { filter } from 'rxjs';
-import { DeviceMngPage } from '@/components/device-mng/device-mng';
+import DeviceMngPage from '@/components/device-mng/device-mng';
 import { DeviceSelectorPage } from '@/components/device-selector/device-selector';
 import { Transition } from '@headlessui/react';
 import { useAppContext } from '@/AppContext';

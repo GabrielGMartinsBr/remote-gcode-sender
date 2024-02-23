@@ -6,7 +6,12 @@ export function useDeviceMngContextValue() {
     const elements = useRefSet3(class {
         container: HTMLDivElement | null = null;
     });
-    const storeEmitter = useRxEmitter({});
+    const storeEmitter = useRxEmitter({
+        logs: {
+            entries: [] as string[],
+            str: ''
+        }
+    });
 
     return {
         elements,
