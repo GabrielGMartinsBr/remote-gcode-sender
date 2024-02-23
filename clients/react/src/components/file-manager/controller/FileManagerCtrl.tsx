@@ -18,7 +18,12 @@ export default function FileManagerCtrl(props: PropsWithChildren) {
             // });
             browserFilesToUpload();
         };
+
+        d.onClickEntryLog = entry => {
+            console.log(entry.name)
+        }
     });
+
 
     async function browserFilesToUpload() {
         const files = await fileUploader.browserFiles();
