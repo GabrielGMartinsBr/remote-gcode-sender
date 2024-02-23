@@ -83,10 +83,10 @@ export function DeviceMngPage() {
                 </div>
                 <DeviceStatus />
                 <BasicControls />
+                <FileManager />
                 <FileCtrl />
                 <DeviceTerm logs={logs} />
                 <WorkbenchFiles files={files} />
-                <FileManager />
             </div>
 
         </DeviceMngProvider>

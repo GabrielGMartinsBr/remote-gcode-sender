@@ -31,7 +31,6 @@ export default function UploadList(_props: Props) {
         <table
             className={`@tw{
                 flex-1 w-full
-                border border-blue-500/30
             }`}
         >
 
