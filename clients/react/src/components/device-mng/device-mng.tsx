@@ -1,6 +1,8 @@
 import DeviceMngCtrl from './DeviceMngCtrl';
 import DeviceMngProvider from './context/DeviceMngProvider';
 
+import './device-mng.scss';
+
 interface Props { }
 
 export default function DeviceMng(_props: Props) {
