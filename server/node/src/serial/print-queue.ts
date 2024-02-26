@@ -32,7 +32,7 @@ export class PrintQueue {
             index: this.index,
             running: this.running,
             complete: this.complete,
-            linesNumber: this.lines.length,
+            linesNumber: this.lines?.length,
             pendingCommand: this.pendingCommand,
             paused: this.paused,
         };

@@ -3,6 +3,8 @@ import { CommandsService } from './commands-service';
 
 export const commandsRouter = express.Router();
 
+commandsRouter.use(express.json());
+
 commandsRouter.get('/status', (req, res) => {
     const service = CommandsService.getInstance();
     const status = service.status();
