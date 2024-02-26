@@ -9,6 +9,8 @@ export class PrintQueue {
     complete: boolean;
     private content: string;
     private lines: string[];
+    private paused: boolean;
+    private pendingCommand: boolean;
 
     private startTime: Date;
 
@@ -23,6 +25,25 @@ export class PrintQueue {
     destroy() {
         this.parser.removeListener('data', this.onSerialData);
         this.port.removeListener('close', this.destroy);
+    }
+
+    getStatus() {
+        return {
+            index: this.index,
+            running: this.running,
+            complete: this.complete,
+            linesNumber: this.lines.length,
+            pendingCommand: this.pendingCommand,
+            paused: this.paused,
+        };
+    }
+
+    pause() {
+        this.paused = true;
+    }
+
+    unpause() {
+        this.paused = false;
     }
 
     async loadFile(fileName) {
@@ -45,6 +66,7 @@ export class PrintQueue {
 
     onSerialData(data: string) {
         if (/^ok/i.test(data.trim())) {
+            this.pendingCommand = false;
             if (this.running) {
                 this.index++;
                 this.next();
@@ -53,6 +75,9 @@ export class PrintQueue {
     }
 
     private next() {
+        if (this.paused) {
+            return;
+        }
         if (this.complete || !this.running) {
             return;
         }
@@ -82,6 +107,7 @@ export class PrintQueue {
 
         if (this.port.writable) {
             this.port.write(line + '\n');
+            this.pendingCommand = true;
         }
     }
 

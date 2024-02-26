@@ -1,7 +1,8 @@
 import express from 'express';
 import multer from 'multer';
-import { Serial } from '../serial/serial';
 import cors from 'cors';
+
+import { Serial } from '../serial/serial';
 
 const storage = multer.diskStorage({
     destination: './appData/workbench',
@@ -26,4 +27,9 @@ machineRouter.post('/gcode', upload.single('gcode'), (req, res) => {
     } else {
         res.status(400).json({ error: 'invalid file' });
     }
+})
+
+machineRouter.post('/status', (req, res) => {
+    const status = Serial.device.getStatus();
+    res.json({ status });
 })

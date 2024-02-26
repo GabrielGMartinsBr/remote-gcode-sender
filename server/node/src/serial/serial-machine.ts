@@ -1,7 +1,7 @@
 import { SerialPort, ReadlineParser, } from 'serialport';
 import moment from 'moment';
-import { PrintQueue } from './print-queue';
 import { WSS, WSSPack } from '../wss/wss';
+import { PrintQueue } from './print-queue';
 
 export class SerialMachine {
     port: SerialPort;
@@ -51,6 +51,17 @@ export class SerialMachine {
             }
             console.error(error);
         })
+    }
+
+    getStatus() {
+        if (!this.queue) {
+            return null;
+        }
+        return this.queue.getStatus();
+    }
+
+    getQueue() {
+        return this.queue;
     }
 
     send(data) {
