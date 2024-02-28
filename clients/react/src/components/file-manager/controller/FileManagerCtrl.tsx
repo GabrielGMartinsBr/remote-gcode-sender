@@ -1,14 +1,14 @@
 import { PropsWithChildren } from 'react';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 
 import { useAppContext } from '@/AppContext';
 import useInstanceOf from '@/hooks/useInstanceOf';
 import { useFileManagerContext } from '../context/useFileManagerContext';
 import { FileBrowser } from './services/FileBrowser';
-import { toast } from 'react-toastify';
 
 export default function FileManagerCtrl(props: PropsWithChildren) {
-    const { children } = props;
+    const { wsClient } = useAppContext();
     const { host } = useAppContext();
     const { handlersEmitter, storeEmitter } = useFileManagerContext();
     const fileBrowser = useInstanceOf(FileBrowser);
@@ -22,6 +22,8 @@ export default function FileManagerCtrl(props: PropsWithChildren) {
             // const content = await FileContentReader.readContent(entry.file);
             uploadAndPrint(entry.file);
         }
+
+        d.onClickFileEntryPrint = file => printFileEntry(file.name);
     });
 
 
@@ -88,9 +90,20 @@ export default function FileManagerCtrl(props: PropsWithChildren) {
         console.log(res);
     }
 
+    function printFileEntry(name: string) {
+        if (!name || !wsClient) {
+            return;
+        }
+        const res = confirm(`Start print file: ${name}`);
+        if (!res) {
+            return;
+        }
+        wsClient.send({ cmd: 'serialPrintWorkbenchFile', data: name });
+    }
+
     return (
         <>
-            {children}
+            {props.children}
         </>
     );
 }

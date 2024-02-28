@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import { useRefSet3 } from '@/hooks/useRefSet3';
+import { GCodeFileEntry } from '@/types/Files';
 import { useRxEmitter } from '../../../modules/RxEvents/useRxEmitter';
 
 export function useDeviceMngContextValue() {
@@ -8,7 +9,7 @@ export function useDeviceMngContextValue() {
     });
     const storeEmitter = useRxEmitter({
         files: {
-            entries: [] as string[]
+            entries: [] as GCodeFileEntry[]
         }
     });
     const logsEmitter = useRxEmitter({

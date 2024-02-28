@@ -21,8 +21,8 @@ export default function DeviceMngView() {
             <BasicControls />
             <FileManager />
             <DeviceTerm />
-            <FileCtrl />
-            <WorkbenchFiles />
+            {/* <FileCtrl /> */}
+            {/* <WorkbenchFiles /> */}
         </div>
     );
 }

@@ -6,10 +6,11 @@ import DateText from './DateText';
 
 interface Props {
     item: GCodeFileEntry;
+    onPrintClick: () => void;
 }
 
 export default function FileEntry(props: Props) {
-    const { item } = props;
+    const { item, onPrintClick } = props;
 
     const buttonStyle = `@tw{
         px-2 py-1.5
@@ -98,7 +99,10 @@ export default function FileEntry(props: Props) {
                     <PiEye />
                 </button>
 
-                <button className={buttonStyle}>
+                <button
+                    className={buttonStyle}
+                    onClick={onPrintClick}
+                >
                     <PiPrinter />
                 </button>
             </div>

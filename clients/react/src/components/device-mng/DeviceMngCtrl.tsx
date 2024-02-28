@@ -3,6 +3,7 @@ import { Subject, filter, takeUntil } from 'rxjs';
 
 import { useAppContext } from '@/AppContext';
 import useInstanceOf from '@/hooks/useInstanceOf';
+import { GCodeFileEntry } from '@/types/Files';
 
 import { useDeviceMngContext } from './context/useDeviceMngContext';
 
@@ -11,6 +12,15 @@ export default function DeviceMngCtrl(props: PropsWithChildren) {
     const destroySbj = useInstanceOf(Subject<void>);
 
     const { storeEmitter, logsEmitter } = useDeviceMngContext();
+
+    useEffect(() => {
+        function getFiles() {
+            if (wsClient) {
+                wsClient.send({ cmd: 'serialGetFiles' });
+            }
+        }
+        getFiles();
+    }, []);
 
     useEffect(() => {
         listenWS();
@@ -64,8 +74,16 @@ export default function DeviceMngCtrl(props: PropsWithChildren) {
     }
 
     function onFiles(data: string[]) {
+        const entries = data.map((name): GCodeFileEntry => {
+            return {
+                uid: name,
+                name,
+                lastPrintDate: new Date(),
+                uploadDate: new Date()
+            };
+        });
         storeEmitter.update(d => {
-            d.files.entries = data;
+            d.files.entries = entries;
         });
     }
 

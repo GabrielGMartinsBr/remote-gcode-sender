@@ -1,30 +1,37 @@
 import { useDeviceMngContext } from '@/components/device-mng/context/useDeviceMngContext';
-import { GCodeFileEntry } from '@/types/Files';
-import FileEntry from './FileEntry';
 import { useRxSubscription } from '@/modules/RxEvents';
+import { useFileManagerContext } from '../context/useFileManagerContext';
+import FileEntry from './FileEntry';
 
-interface Props {
-    items: GCodeFileEntry[];
-}
+interface Props { }
 
-export default function FileEntries(props: Props) {
-    const { items } = props;
+export default function FileEntries(_props: Props) {
     const { storeEmitter } = useDeviceMngContext();
+    const { handlersEmitter } = useFileManagerContext();
     const store = useRxSubscription(storeEmitter, { reRenderOnChange: true });
+    const handlers = useRxSubscription(handlersEmitter, { reRenderOnChange: true });
     const { files } = store.value;
-    console.log(files);
+    const { onClickFileEntryPrint } = handlers.value;
 
     return (
         <div className={`@tw{
             flex flex-row flex-wrap
             justify-start items-start
             gap-4
-            
+            max-h-[50vh]
+            overflow-auto
+            scrollbar-thin
+            scrollbar-thumb-zinc-600
         }`}>
-            {items.map((item) => (
+            {files.entries.map((item) => (
                 <FileEntry
                     key={item.uid}
                     item={item}
+                    onPrintClick={() => {
+                        if (onClickFileEntryPrint) {
+                            onClickFileEntryPrint(item);
+                        }
+                    }}
                 />
             ))}
         </div>
