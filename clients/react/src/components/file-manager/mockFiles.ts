@@ -1,4 +1,4 @@
-import { GCodeFileEntry } from './types';
+import { GCodeFileEntry } from '@/types/Files';
 
 export const mockFiles: GCodeFileEntry[] = [
     {

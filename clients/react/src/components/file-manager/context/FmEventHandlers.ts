@@ -1,4 +1,4 @@
-import { FileUploadEntry } from '../types';
+import { FileUploadEntry } from '@/types/Files';
 
 export type FmEventHandlers = {
     onClickBrowser?: () => void;

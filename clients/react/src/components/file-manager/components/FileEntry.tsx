@@ -1,6 +1,6 @@
 import { GoFileCode, GoTrash } from "react-icons/go";
 import { PiPrinter, PiEye } from "react-icons/pi";
-import { GCodeFileEntry } from '../types';
+import { GCodeFileEntry } from '@/types/Files';
 import DateText from './DateText';
 
 

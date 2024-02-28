@@ -1,4 +1,4 @@
-import { GCodeFileEntry } from './types';
+import { GCodeFileEntry } from '@/types/Files';
 import FileEntries from './components/FileEntries';
 import FileUpload from './components/upload/FileUpload';
 

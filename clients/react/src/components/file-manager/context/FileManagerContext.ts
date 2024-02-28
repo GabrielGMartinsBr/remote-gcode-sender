@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 import { useRefSet3 } from '@/hooks/useRefSet3';
+import { FileUploadEntry } from '@/types/Files';
 import { useRxEmitter } from '../../../modules/RxEvents/useRxEmitter';
 import { FmEventHandlers } from './FmEventHandlers';
-import { FileUploadEntry } from '../types';
 
 export function useFileManagerContextValue() {
     const elements = useRefSet3(class {
