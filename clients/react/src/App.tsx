@@ -5,7 +5,7 @@ import { AppContext, AppContextValue } from '@/AppContext';
 import ViewCtrl from './view/ViewCtrl';
 import { WsClient } from './services/ws-client';
 import { ServerHost } from './types/server-host';
-import FileManager from './components/file-manager/FileManager';
+import FileManager from './components/device-mng/components/fileManager/FileManager';
 
 function App() {
   const wsClient = useRef(new WsClient());

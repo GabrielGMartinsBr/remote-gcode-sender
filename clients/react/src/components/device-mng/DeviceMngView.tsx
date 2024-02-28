@@ -1,5 +1,5 @@
 import { useRxSubscription } from '@/modules/RxEvents';
-import FileManager from '../file-manager/FileManager';
+import FileManager from './components/fileManager/FileManager';
 import { BasicControls } from './basic-controls';
 import { useDeviceMngContext } from './context/useDeviceMngContext';
 import { DeviceStatus } from './device-status';
