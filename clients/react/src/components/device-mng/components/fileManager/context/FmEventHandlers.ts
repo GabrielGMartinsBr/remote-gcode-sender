@@ -6,4 +6,7 @@ export type FmEventHandlers = {
     onClickUploadListEntryPrint?: (entry: FileUploadEntry) => void;
 
     onClickFileEntryPrint?: (file: GCodeFileEntry) => void;
+
+    onSetGridDisplayMode?: () => void;
+    onSetListDisplayMode?: () => void;
 };

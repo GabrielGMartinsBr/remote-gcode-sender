@@ -1,11 +1,17 @@
 import { FaTh, FaThList } from 'react-icons/fa';
 import TopMenuButton from './TopMenuButton';
+import { useFileManagerContext } from '../../context/useFileManagerContext';
+import { useRxSubscription } from '@/modules/RxEvents';
+import { FilesDisplayMode } from '../../types/FilesDisplayMode';
 
-interface Props {
-}
 
-export default function EntriesDisplayMode(props: Props) {
-    const { } = props;
+export default function EntriesDisplayMode() {
+    const { storeEmitter, handlersEmitter } = useFileManagerContext();
+
+    const store = useRxSubscription(storeEmitter, { reRenderOnChange: true });
+    const handlers = useRxSubscription(handlersEmitter, { reRenderOnChange: true });
+
+    const { filesList } = store.value;
 
     return (
         <div
@@ -20,15 +26,16 @@ export default function EntriesDisplayMode(props: Props) {
             }`}
         >
             <TopMenuButton
-                isActive={true}
                 inactiveStyle='opacity-50'
+                isActive={filesList.display === FilesDisplayMode.GRID}
+                onClick={handlers.value.onSetGridDisplayMode}
             >
                 <FaTh />
             </TopMenuButton>
             <TopMenuButton
-                isActive={false}
                 inactiveStyle='opacity-50'
-
+                isActive={filesList.display === FilesDisplayMode.LIST}
+                onClick={handlers.value.onSetListDisplayMode}
             >
                 <FaThList />
             </TopMenuButton>

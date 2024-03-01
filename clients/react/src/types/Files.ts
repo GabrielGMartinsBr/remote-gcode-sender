@@ -1,6 +1,8 @@
 export interface GCodeFileEntry {
     uid: string;
     name: string;
+    size: number;
+    modifiedDate: Date;
     uploadDate: Date;
     lastPrintDate: Date;
 }

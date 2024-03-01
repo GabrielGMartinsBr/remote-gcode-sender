@@ -3,6 +3,7 @@ import { useRefSet3 } from '@/hooks/useRefSet3';
 import { FileUploadEntry } from '@/types/Files';
 import { useRxEmitter } from '../../../../../modules/RxEvents/useRxEmitter';
 import { FmEventHandlers } from './FmEventHandlers';
+import { FilesDisplayMode } from '../types/FilesDisplayMode';
 
 export function useFileManagerContextValue() {
     const elements = useRefSet3(class {
@@ -14,6 +15,9 @@ export function useFileManagerContextValue() {
             entries: [] as FileUploadEntry[],
             uploading: false,
             uploadResult: null as 'success' | 'fail' | null,
+        },
+        filesList: {
+            display: FilesDisplayMode.LIST
         }
     });
 

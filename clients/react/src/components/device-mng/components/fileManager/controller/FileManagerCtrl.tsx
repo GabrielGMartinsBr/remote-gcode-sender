@@ -6,6 +6,7 @@ import { useAppContext } from '@/AppContext';
 import useInstanceOf from '@/hooks/useInstanceOf';
 import { useFileManagerContext } from '../context/useFileManagerContext';
 import { FileBrowser } from './services/FileBrowser';
+import { FilesDisplayMode } from '../types/FilesDisplayMode';
 
 export default function FileManagerCtrl(props: PropsWithChildren) {
     const { wsClient } = useAppContext();
@@ -24,6 +25,18 @@ export default function FileManagerCtrl(props: PropsWithChildren) {
         }
 
         d.onClickFileEntryPrint = file => printFileEntry(file.name);
+
+        d.onSetGridDisplayMode = () => {
+            storeEmitter.update(storeDraft => {
+                storeDraft.filesList.display = FilesDisplayMode.GRID;
+            });
+        };
+
+        d.onSetListDisplayMode = () => {
+            storeEmitter.update(storeDraft => {
+                storeDraft.filesList.display = FilesDisplayMode.LIST;
+            });
+        };
     });
 
 
