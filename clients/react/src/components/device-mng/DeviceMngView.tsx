@@ -6,6 +6,7 @@ import { DeviceStatus } from './device-status';
 import { DeviceTerm } from './DeviceTerm';
 import { FileCtrl } from './file-ctrl';
 import { WorkbenchFiles } from './workbench-files';
+import QueueStatus from './components/queueStatus/QueueStatus';
 
 export default function DeviceMngView() {
     const { storeEmitter } = useDeviceMngContext();
@@ -18,6 +19,7 @@ export default function DeviceMngView() {
                 </h2>
             </div>
             <DeviceStatus />
+            <QueueStatus />
             <BasicControls />
             <FileManager />
             <DeviceTerm />

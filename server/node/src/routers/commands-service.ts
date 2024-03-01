@@ -1,4 +1,4 @@
-import { PrinterCommand } from './commands';
+import { PrinterCommand } from '../../../../common/commands';
 import { Serial } from '../serial/serial';
 
 export class CommandsService {

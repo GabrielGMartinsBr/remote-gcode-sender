@@ -1,7 +1,7 @@
 {
   "include": [
     "src"
-  ],
+, "../../common/commands.ts"  ],
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist",
