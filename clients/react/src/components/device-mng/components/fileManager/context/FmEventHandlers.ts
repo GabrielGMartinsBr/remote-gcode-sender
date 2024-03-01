@@ -9,4 +9,6 @@ export type FmEventHandlers = {
 
     onSetGridDisplayMode?: () => void;
     onSetListDisplayMode?: () => void;
+
+    onSearchInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };

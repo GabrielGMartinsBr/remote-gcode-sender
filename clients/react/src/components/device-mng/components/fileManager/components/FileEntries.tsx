@@ -26,7 +26,6 @@ export default function FileEntries(_props: Props) {
         }
     };
 
-
     return (
         <div className={`@tw{
             flex flex-row flex-wrap
@@ -39,14 +38,14 @@ export default function FileEntries(_props: Props) {
         }`}>
             {filesList.display === FilesDisplayMode.GRID ? (
                 <FileEntriesGrid
-                    entries={files.entries}
+                    entries={filesList.searchResult}
                     onPrintClick={handlePrintClick}
                 />
             ) : null}
 
             {filesList.display === FilesDisplayMode.LIST ? (
                 <FileEntriesList
-                    entries={files.entries}
+                    entries={filesList.searchResult}
                     onPrintClick={handlePrintClick}
                 />
             ) : null}

@@ -1,10 +1,15 @@
+import { useRxSubscription } from '@/modules/RxEvents';
 import { FaSearch } from 'react-icons/fa';
+import { useFileManagerContext } from '../../context/useFileManagerContext';
 
 interface Props {
 }
 
 export default function SearchField(props: Props) {
     const { } = props;
+    const { storeEmitter, handlersEmitter } = useFileManagerContext();
+    const { filesList } = useRxSubscription(storeEmitter, { reRenderOnChange: true }).value;
+    const { onSearchInputChange } = useRxSubscription(handlersEmitter, { reRenderOnChange: true }).value;
 
     return (
         <div
@@ -35,6 +40,8 @@ export default function SearchField(props: Props) {
                 type='text'
                 placeholder='Search file'
                 spellCheck={false}
+                value={filesList.searchTerms}
+                onChange={onSearchInputChange}
             />
 
             <button

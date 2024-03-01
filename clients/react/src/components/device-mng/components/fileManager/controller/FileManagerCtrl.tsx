@@ -7,12 +7,15 @@ import useInstanceOf from '@/hooks/useInstanceOf';
 import { useFileManagerContext } from '../context/useFileManagerContext';
 import { FileBrowser } from './services/FileBrowser';
 import { FilesDisplayMode } from '../types/FilesDisplayMode';
+import useSearch from './useSearch';
 
 export default function FileManagerCtrl(props: PropsWithChildren) {
     const { wsClient } = useAppContext();
     const { host } = useAppContext();
     const { handlersEmitter, storeEmitter } = useFileManagerContext();
     const fileBrowser = useInstanceOf(FileBrowser);
+
+    useSearch();
 
     handlersEmitter.update(d => {
         d.onClickBrowser = () => {
@@ -35,6 +38,12 @@ export default function FileManagerCtrl(props: PropsWithChildren) {
         d.onSetListDisplayMode = () => {
             storeEmitter.update(storeDraft => {
                 storeDraft.filesList.display = FilesDisplayMode.LIST;
+            });
+        };
+
+        d.onSearchInputChange = e => {
+            storeEmitter.update(storeDraft => {
+                storeDraft.filesList.searchTerms = e.target.value;
             });
         };
     });

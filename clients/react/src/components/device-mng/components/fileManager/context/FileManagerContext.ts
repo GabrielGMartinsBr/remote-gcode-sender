@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 import { useRefSet3 } from '@/hooks/useRefSet3';
-import { FileUploadEntry } from '@/types/Files';
+import { FileUploadEntry, GCodeFileEntry } from '@/types/Files';
 import { useRxEmitter } from '../../../../../modules/RxEvents/useRxEmitter';
 import { FmEventHandlers } from './FmEventHandlers';
 import { FilesDisplayMode } from '../types/FilesDisplayMode';
@@ -17,7 +17,9 @@ export function useFileManagerContextValue() {
             uploadResult: null as 'success' | 'fail' | null,
         },
         filesList: {
-            display: FilesDisplayMode.LIST
+            display: FilesDisplayMode.LIST,
+            searchTerms: '',
+            searchResult: [] as GCodeFileEntry[],
         }
     });
 
