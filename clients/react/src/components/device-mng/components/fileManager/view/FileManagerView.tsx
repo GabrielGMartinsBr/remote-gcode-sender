@@ -1,5 +1,6 @@
-import FileEntries from './components/FileEntries';
-import FileUpload from './components/upload/FileUpload';
+import FileEntries from '../components/FileEntries';
+import FileUpload from '../components/upload/FileUpload';
+import FilesTopMenu from './topMenu/FilesTopMenu';
 
 interface Props { }
 
@@ -12,6 +13,8 @@ export default function FileManagerView(_props: Props) {
         }`}>
 
             <FileUpload />
+
+            <FilesTopMenu />
 
             <FileEntries />
         </div>
