@@ -12,8 +12,8 @@ export class SerialMachine {
     private queue: PrintQueue;
 
     constructor(private portInfo) {
-        this.port = new SerialPort({ autoOpen: false, baudRate: 115200, path: portInfo.path, });
-        // this.port = new SerialPort(portInfo.path, { autoOpen: false, baudRate: 250000 });
+        // this.port = new SerialPort({ autoOpen: false, baudRate: 115200, path: portInfo.path, });
+        this.port = new SerialPort({ autoOpen: false, baudRate: 250000, path: portInfo.path, });
         this.parser = new ReadlineParser({ delimiter: '\n' });
         this.port.pipe(this.parser)
         this.parser.addListener('data', this.onData.bind(this));

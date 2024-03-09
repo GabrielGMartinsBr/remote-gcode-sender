@@ -44,6 +44,9 @@ export class PrintQueue {
 
     unpause() {
         this.paused = false;
+        if (!this.pendingCommand) {
+            this.next();
+        }
     }
 
     async loadFile(fileName) {
